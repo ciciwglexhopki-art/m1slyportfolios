@@ -1,0 +1,53 @@
+body{
+background:#0b0b0b;
+color:white;
+font-family:Poppins;
+margin:0;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 10%;
+border-bottom:1px solid #222;
+}
+
+#logo{
+font-size:32px;
+transition:0.4s;
+}
+
+nav a{
+margin-left:20px;
+text-decoration:none;
+color:white;
+opacity:0.8;
+}
+
+nav a:hover{
+opacity:1;
+}
+
+section{
+padding:80px 10%;
+}
+
+.project-container{
+display:flex;
+gap:20px;
+overflow-x:auto;
+}
+
+.card{
+min-width:250px;
+background:#111;
+padding:25px;
+border-radius:10px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+background:#181818;
+}
