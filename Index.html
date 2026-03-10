@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>M1SLY — Roblox UI Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#0f0f0f;--bg3:#141414;--bg4:#1a1a1a;
+  --neon:#00ff88;--neon2:#00d4ff;--neonpk:#ff2d78;
+  --tx:#f0f0f0;--tx2:#a0a0a0;--tx3:#505050;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
+  --card:rgba(15,15,15,.95);
+  --glow-g:0 0 40px rgba(0,255,136,.2);
+  --glow-b:0 0 40px rgba(0,212,255,.2);
+  --glow-p:0 0 40px rgba(255,45,120,.2);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden}
+
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;z-index:0;opacity:.025;pointer-events:none;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* GRID */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.04;
+background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+background-size:80px 80px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:18px 56px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Inter',sans-serif;font-weight:900;font-size:1.2rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx);text-decoration:none;display:flex;align-items:center;gap:6px}
+.logo-mark{font-size:.65rem;color:var(--neon);vertical-align:super;letter-spacing:0}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:var(--tx3);text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--tx)}
+.nav-r{display:flex;gap:10px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:4px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:none;border:none;transition:all .25s}
+.btn-neon{background:var(--neon);color:#000;box-shadow:0 0 20px rgba(0,255,136,.3)}.btn-neon:hover{background:#00ffaa;box-shadow:0 0 40px rgba(0,255,136,.5);transform:translateY(-2px)}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--tx)}.btn-ghost:hover{border-color:var(--neon);color:var(--neon);transform:translateY(-2px)}
+.btn-outline-neon{background:transparent;border:1px solid var(--neon);color:var(--neon)}.btn-outline-neon:hover{background:var(--neon);color:#000;box-shadow:var(--glow-g);transform:translateY(-2px)}
+.btn-discord{background:#5865F2;color:#fff;letter-spacing:.5px}.btn-discord:hover{background:#4752c4;transform:translateY(-2px);box-shadow:0 0 20px rgba(88,101,242,.4)}
+.btn-sm{padding:8px 18px;font-size:.72rem}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding:120px 56px 80px;gap:80px;position:relative;z-index:1;justify-content:space-between}
+.hero-l{max-width:580px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3)}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);animation:blink 2s infinite}
+.hero-dot.busy{background:#ffb800;box-shadow:0 0 8px #ffb800}
+.hero-dot.closed{background:var(--neonpk);box-shadow:0 0 8px var(--neonpk)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:'Inter',sans-serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:900;line-height:1;letter-spacing:-3px;margin-bottom:8px;text-transform:uppercase}
+.nt{display:block;color:var(--neon);text-shadow:0 0 40px rgba(0,255,136,.4)}
+.hero-sub-title{font-family:'Inter',sans-serif;font-size:clamp(1rem,2vw,1.5rem);font-weight:300;color:var(--tx2);letter-spacing:8px;text-transform:uppercase;margin-bottom:32px}
+.hero-desc{font-size:.95rem;color:var(--tx2);line-height:1.8;max-width:460px;margin-bottom:36px;font-weight:400}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border2);color:var(--tx3);border-radius:2px;transition:all .2s}
+.tag:hover{border-color:var(--neon);color:var(--neon)}
+.hero-r{flex-shrink:0;position:relative}
+.photo-wrap{width:320px;height:380px;position:relative}
+.photo-wrap::before{content:'';position:absolute;inset:0;border:1px solid var(--neon);border-radius:2px;animation:glowpulse 3s ease-in-out infinite;z-index:0}
+@keyframes glowpulse{0%,100%{box-shadow:0 0 20px rgba(0,255,136,.2)}50%{box-shadow:0 0 60px rgba(0,255,136,.4)}}
+.photo-inner{position:absolute;inset:8px;background:var(--bg3);border-radius:2px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:5rem;cursor:pointer}
+.photo-inner img{width:100%;height:100%;object-fit:cover}
+.photo-corner{position:absolute;width:16px;height:16px;border-color:var(--neon);border-style:solid}
+.pc-tl{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.pc-tr{top:-1px;right:-1px;border-width:2px 2px 0 0}
+.pc-bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px}
+.pc-br{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+
+/* DIVIDER */
+.div{height:1px;background:var(--border);position:relative;z-index:1}
+.div-label{position:absolute;left:56px;top:-9px;background:var(--bg);padding:0 12px;font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3)}
+
+/* SECTIONS */
+section{position:relative;z-index:1}
+.si{max-width:1100px;margin:0 auto;padding:88px 56px}
+.sec-head{margin-bottom:56px}
+.sec-num{font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--neon);margin-bottom:8px}
+.sec-title{font-family:'Inter',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;letter-spacing:-2px;text-transform:uppercase;line-height:1}
+.sec-sub{color:var(--tx2);font-size:.9rem;margin-top:12px;font-weight:400}
+
+/* ABOUT */
+#about{background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px}
+.about-body p{color:var(--tx2);line-height:1.9;font-size:.92rem;margin-bottom:16px}
+.about-body strong{color:var(--tx)}
+.srv-grid{display:flex;flex-direction:column;gap:1px;margin-top:32px;border:1px solid var(--border)}
+.srv{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--card);transition:all .25s;border-bottom:1px solid var(--border)}
+.srv:last-child{border-bottom:none}
+.srv:hover{background:var(--bg3);border-left:2px solid var(--neon);padding-left:18px}
+.srv-ico{font-size:1.1rem;flex-shrink:0;width:32px}
+.srv strong{display:block;font-size:.84rem;font-weight:700;letter-spacing:.5px;margin-bottom:2px}
+.srv span{font-size:.77rem;color:var(--tx3)}
+.info-stack{display:flex;flex-direction:column;gap:2px}
+.info-block{background:var(--card);border:1px solid var(--border);padding:20px}
+.info-block-head{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--neon);margin-bottom:14px}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.82rem}
+.info-row:last-child{border-bottom:none}
+.ik{color:var(--tx3);font-weight:500}.iv{font-weight:700;color:var(--tx)}
+.iv-g{color:var(--neon)!important}.iv-y{color:#ffb800!important}.iv-r{color:var(--neonpk)!important}
+
+/* PRICING */
+#pricing{background:var(--bg)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.pc{background:var(--bg2);padding:32px 28px;transition:all .3s;position:relative;overflow:hidden}
+.pc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--neon);opacity:0;transition:opacity .3s}
+.pc:hover{background:var(--bg3)}.pc:hover::after{opacity:1}
+.pc.ft{background:var(--bg3)}.pc.ft::after{opacity:1}
+.pc-tag{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--neon);margin-bottom:20px;display:block}
+.pc-name{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:900;letter-spacing:-1px;text-transform:uppercase;margin-bottom:4px}
+.pc-price{font-family:'Inter',sans-serif;font-size:2.5rem;font-weight:900;letter-spacing:-2px;color:var(--tx);margin:16px 0 4px}
+.pc-price sup{font-size:.9rem;letter-spacing:0;font-weight:700;color:var(--tx2)}
+.pc-note{font-size:.75rem;color:var(--tx3);margin-bottom:24px}
+.pc-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+.pc-feats li{font-size:.82rem;color:var(--tx2);display:flex;align-items:center;gap:10px}
+.pc-feats li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--neon);flex-shrink:0}
+
+/* WORK */
+#work{background:var(--bg2)}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.wc{background:var(--bg);transition:all .3s;position:relative;overflow:hidden;cursor:pointer}
+.wc:hover{background:var(--bg3)}
+.wc:hover .w-overlay{opacity:1}
+.wc:hover .w-img-wrap{transform:scale(1.04)}
+.w-img-wrap{height:180px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:3rem;overflow:hidden;transition:transform .4s}
+.w-img-wrap img{width:100%;height:100%;object-fit:cover}
+.w-overlay{position:absolute;inset:0;height:180px;background:rgba(0,255,136,.08);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;font-size:.72rem;font-weight:700;letter-spacing:2px;color:var(--neon)}
+.w-body{padding:18px 20px;border-top:1px solid var(--border)}
+.w-cat{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--neon);margin-bottom:6px}
+.w-name{font-family:'Inter',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:-0.5px;margin-bottom:4px}
+.w-desc{font-size:.78rem;color:var(--tx3);line-height:1.6}
+.edit-hint-work{display:none}
+body.emode .w-overlay{pointer-events:auto}
+body.emode .wc:hover .w-overlay{opacity:1}
+
+/* FAQ */
+#faq{background:var(--bg)}
+.faq-wrap{border:1px solid var(--border);overflow:hidden}
+.fi{border-bottom:1px solid var(--border);transition:background .2s}
+.fi:last-child{border-bottom:none}
+.fi.open{background:var(--bg2)}
+.fq{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:pointer;font-size:.85rem;font-weight:700;letter-spacing:.5px;user-select:none;transition:color .2s}
+.fi.open .fq{color:var(--neon)}
+.farr{width:24px;height:24px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.farr svg{transition:transform .3s}
+.fi.open .farr{border-color:var(--neon)}.fi.open .farr svg{transform:rotate(180deg)}
+.fb{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.fb p{padding:0 24px 20px;font-size:.84rem;color:var(--tx2);line-height:1.85}
+
+/* CONTACT / EMAIL */
+#contact{background:var(--bg2)}
+.contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px}
+.contact-form{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
+.fg{display:flex;flex-direction:column}
+.fg label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);padding:14px 16px 0;background:var(--bg)}
+.fg input,.fg textarea,.fg select{background:var(--bg);border:none;border-bottom:1px solid var(--border);padding:10px 16px 14px;color:var(--tx);font-family:'Inter',sans-serif;font-size:.87rem;outline:none;transition:all .25s;resize:none}
+.fg input:focus,.fg textarea:focus,.fg select:focus{background:var(--bg2);border-bottom-color:var(--neon)}
+.fg textarea{min-height:110px}
+.fg select option{background:var(--bg)}
+.form-send{background:var(--neon);border:none;color:#000;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;padding:18px;cursor:pointer;transition:all .25s;margin-top:1px}
+.form-send:hover{background:#00ffaa;box-shadow:var(--glow-g)}
+.contact-r{display:flex;flex-direction:column;gap:2px}
+.clink{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);padding:16px 18px;text-decoration:none;transition:all .25s}
+.clink:hover{border-color:var(--neon);background:var(--bg3)}
+.clink-ico{width:38px;height:38px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.clink-label{font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:3px}
+.clink-val{font-size:.88rem;font-weight:700;color:var(--tx)}
+.info-box{background:var(--card);border:1px solid var(--border);padding:20px;font-size:.8rem;color:var(--tx2);line-height:2}
+.info-box strong{color:var(--tx)}
+.neon-txt{color:var(--neon)!important}
+
+/* FOOTER */
+footer{text-align:center;padding:40px 56px;border-top:1px solid var(--border);position:relative;z-index:1}
+.footer-logo{font-family:'Inter',sans-serif;font-weight:900;font-size:1.8rem;letter-spacing:4px;text-transform:uppercase;color:var(--tx);margin-bottom:6px}
+.footer-logo sup{font-size:.55rem;color:var(--neon);letter-spacing:0}
+.footer-by{font-size:.68rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);margin-bottom:20px}
+.footer-links{display:flex;justify-content:center;gap:32px;margin-bottom:24px}
+.footer-links a{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--neon)}
+.footer-copy{font-size:.7rem;color:var(--tx3)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--neon);border-radius:2px}
+
+/* EDIT PANEL */
+#ep{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+#ep-box{background:var(--bg2);border:1px solid var(--border2);padding:20px;min-width:240px;display:none;flex-direction:column;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+#ep-box.show{display:flex}
+.ep-head{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--neon);margin-bottom:4px}
+.ep-lbl{font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:5px}
+.ep-sel{background:var(--bg3);border:1px solid var(--border2);padding:8px 12px;color:var(--tx);font-family:'Inter',sans-serif;font-size:.8rem;outline:none;width:100%;cursor:pointer}
+.ep-sel:focus{border-color:var(--neon)}
+.ep-btn{background:transparent;border:1px solid var(--border2);color:var(--tx);font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px;cursor:pointer;transition:all .2s;text-align:center}
+.ep-btn:hover{border-color:var(--neon);color:var(--neon)}
+.ep-btn.act{border-color:var(--neon);color:#000;background:var(--neon)}
+.ep-hint{font-size:.72rem;color:var(--tx3);line-height:1.6;border-top:1px solid var(--border);padding-top:10px}
+#ep-toggle{background:var(--bg2);border:1px solid var(--border2);color:var(--tx);font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+#ep-toggle:hover{border-color:var(--neon);color:var(--neon)}
+
+/* EDIT MODE */
+body.emode [contenteditable="true"]{outline:1px dashed rgba(0,255,136,.4);border-radius:2px;cursor:text;min-width:10px}
+body.emode [contenteditable="true"]:focus{outline:1px solid var(--neon);background:rgba(0,255,136,.04)}
+body.emode .photo-inner{cursor:pointer;outline:1px dashed rgba(0,255,136,.4)}
+body.emode .photo-inner::after{content:'📷 Değiştir';position:absolute;inset:0;background:rgba(0,255,136,.15);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--neon)}
+body.emode .w-img-wrap{cursor:pointer;outline:1px dashed rgba(0,255,136,.4)}
+body.emode .wc:hover .w-overlay{opacity:1}
+
+@media(max-width:800px){
+  nav{padding:14px 20px}.nav-links{display:none}
+  #hero{flex-direction:column;padding:100px 20px 60px;gap:40px}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .price-grid,.work-grid{grid-template-columns:1fr}
+  .si{padding:60px 20px}
+  .div-label{left:20px}
+  footer{padding:32px 20px}
+  #ep{bottom:16px;right:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#hero">M1SLY<sup class="logo-mark">®</sup></a>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-r">
+    <a href="https://x.com/stor4m" target="_blank" class="btn btn-ghost btn-sm"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="btn btn-discord btn-sm">Discord</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-l">
+    <div class="hero-eyebrow">
+      <span class="hero-dot" id="hDot"></span>
+      <span id="hTxt">Available for commissions</span>
+    </div>
+    <h1 class="hero-title">
+      <span contenteditable="false">Roblox</span><br/>
+      <span class="nt" contenteditable="false">UI Design</span>
+    </h1>
+    <div class="hero-sub-title" contenteditable="false">By M1SLY®</div>
+    <p class="hero-desc" contenteditable="false">Interfaces that feel native, look sharp and work exactly how players expect. Every screen designed with intent — no templates, no filler.</p>
+    <div class="hero-btns">
+      <a href="#work" class="btn btn-neon">View Work</a>
+      <a href="#pricing" class="btn btn-ghost">Pricing</a>
+      <a href="#contact" class="btn btn-ghost">Contact</a>
+    </div>
+    <div class="hero-tags">
+      <span class="tag" contenteditable="false">UI Design</span>
+      <span class="tag" contenteditable="false">Roblox Studio</span>
+      <span class="tag" contenteditable="false">Robux · TL</span>
+      <span class="tag" contenteditable="false">UTC+3</span>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="photo-wrap">
+      <div class="photo-corner pc-tl"></div>
+      <div class="photo-corner pc-tr"></div>
+      <div class="photo-corner pc-bl"></div>
+      <div class="photo-corner pc-br"></div>
+      <div class="photo-inner" id="profImg" onclick="chPhoto()">🎨</div>
+    </div>
+  </div>
+</section>
+
+<div class="div"><span class="div-label">01 — About</span></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="si">
+    <div class="sec-head rv">
+      <div class="sec-num">01 / About</div>
+      <h2 class="sec-title">Built with<br/>Intent.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="rv">
+        <p contenteditable="false">I design Roblox game interfaces that feel <strong>native to the platform</strong> — clean layouts, sharp typography and smooth interactions that players actually enjoy using.</p>
+        <p contenteditable="false">I don't pick a style and force it onto every project. I ask: <strong>what does this game actually need?</strong> Then I build exactly that — whether it's a minimal FPS overlay or a rich RPG menu system.</p>
+        <p contenteditable="false">Reference-based commissions are strongly preferred so we're both aligned before a single pixel is touched.</p>
+        <div class="srv-grid">
+          <div class="srv"><span class="srv-ico">▸</span><div><strong contenteditable="false">Any Roblox UI type</strong><span contenteditable="false">HUDs, menus, shops, inventories, loading screens</span></div></div>
+          <div class="srv"><span class="srv-ico">▸</span><div><strong contenteditable="false">Game-matched design</strong><span contenteditable="false">Style tailored to your game's theme and constraints</span></div></div>
+          <div class="srv"><span class="srv-ico">▸</span><div><strong contenteditable="false">Studio-ready output</strong><span contenteditable="false">Correct resolution, image sizes, font compatibility</span></div></div>
+        </div>
+      </div>
+      <div class="info-stack rv">
+        <div class="info-block">
+          <div class="info-block-head">Quick Info</div>
+          <div class="info-row"><span class="ik">Role</span><span class="iv" contenteditable="false">Roblox UI Designer</span></div>
+          <div class="info-row"><span class="ik">Payment</span><span class="iv" contenteditable="false">Robux / TL</span></div>
+          <div class="info-row"><span class="ik">Model</span><span class="iv" contenteditable="false">Per task</span></div>
+          <div class="info-row"><span class="ik">Timezone</span><span class="iv" contenteditable="false">UTC+3 · Turkey</span></div>
+          <div class="info-row"><span class="ik">Response</span><span class="iv" contenteditable="false">≤ 24 h</span></div>
+          <div class="info-row"><span class="ik">Status</span><span class="iv iv-g" id="statusVal">● Open</span></div>
+        </div>
+        <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="btn btn-discord" style="justify-content:center;padding:14px;letter-spacing:2px">Commission on Discord</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div"><span class="div-label">02 — Pricing</span></div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="si">
+    <div class="sec-head rv" style="text-align:center">
+      <div class="sec-num">02 / Pricing</div>
+      <h2 class="sec-title">Flat rate.<br/>No surprises.</h2>
+      <p class="sec-sub" contenteditable="false">All prices in Robux — TL accepted on request.</p>
+    </div>
+    <div class="price-grid rv">
+      <div class="pc">
+        <span class="pc-tag" contenteditable="false">Starter</span>
+        <div class="pc-name" contenteditable="false">Simple Frame</div>
+        <div class="pc-price"><sup>R$</sup><span contenteditable="false">500–1K</span></div>
+        <div class="pc-note" contenteditable="false">Single frame or small panel</div>
+        <ul class="pc-feats">
+          <li contenteditable="false">One frame or component</li>
+          <li contenteditable="false">Clean layout & typography</li>
+          <li contenteditable="false">Studio-compatible export</li>
+        </ul>
+        <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="btn btn-ghost" style="width:100%;justify-content:center">Order Now</a>
+      </div>
+      <div class="pc ft">
+        <span class="pc-tag" contenteditable="false">★ Most Popular</span>
+        <div class="pc-name" contenteditable="false">General Work</div>
+        <div class="pc-price"><sup>R$</sup><span contenteditable="false">2K–5K</span></div>
+        <div class="pc-note" contenteditable="false">Based on task difficulty</div>
+        <ul class="pc-feats">
+          <li contenteditable="false">Full HUD / menu / multi-screen</li>
+          <li contenteditable="false">Game-concept matched design</li>
+          <li contenteditable="false">Roblox Studio ready files</li>
+          <li contenteditable="false">Reference-based preferred</li>
+        </ul>
+        <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="btn btn-neon" style="width:100%;justify-content:center">Get Started</a>
+      </div>
+      <div class="pc">
+        <span class="pc-tag" contenteditable="false">Custom</span>
+        <div class="pc-name" contenteditable="false">Need a Quote?</div>
+        <div class="pc-price" style="font-size:1.8rem;letter-spacing:-1px" contenteditable="false">Let's talk</div>
+        <div class="pc-note" contenteditable="false">Larger or complex scopes</div>
+        <ul class="pc-feats">
+          <li contenteditable="false">Full game UI system</li>
+          <li contenteditable="false">Multiple screens & flows</li>
+          <li contenteditable="false">TL negotiable</li>
+        </ul>
+        <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="btn btn-ghost" style="width:100%;justify-content:center">DM on Discord</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div"><span class="div-label">03 — Work</span></div>
+
+<!-- WORK -->
+<section id="work">
+  <div class="si">
+    <div class="sec-head rv">
+      <div class="sec-num">03 / Work</div>
+      <h2 class="sec-title">Selected<br/>Projects.</h2>
+      <p class="sec-sub" contenteditable="false">Click images to update in edit mode.</p>
+    </div>
+    <div class="work-grid rv">
+      <div class="wc"><div class="w-img-wrap" onclick="chWork(this)"><span>🗡️</span></div><div class="w-overlay">🖼️ Change Image</div><div class="w-body"><div class="w-cat" contenteditable="false">HUD · RPG</div><div class="w-name" contenteditable="false">Combat HUD</div><div class="w-desc" contenteditable="false">Health bars, skill cooldowns, boss overlay.</div></div></div>
+      <div class="wc"><div class="w-img-wrap" onclick="chWork(this)"><span>🏪</span></div><div class="w-overlay">🖼️ Change Image</div><div class="w-body"><div class="w-cat" contenteditable="false">Shop UI · Tycoon</div><div class="w-name" contenteditable="false">In-game Shop</div><div class="w-desc" contenteditable="false">Grid layout, tabs, purchase flow.</div></div></div>
+      <div class="wc"><div class="w-img-wrap" onclick="chWork(this)"><span>📦</span></div><div class="w-overlay">🖼️ Change Image</div><div class="w-body"><div class="w-cat" contenteditable="false">Inventory</div><div class="w-name" contenteditable="false">Inventory System</div><div class="w-desc" contenteditable="false">Equipment slots, stat panel, tooltip.</div></div></div>
+      <div class="wc"><div class="w-img-wrap" onclick="chWork(this)"><span>⚡</span></div><div class="w-overlay">🖼️ Change Image</div><div class="w-body"><div class="w-cat" contenteditable="false">HUD · FPS</div><div class="w-name" contenteditable="false">Minimal FPS HUD</div><div class="w-desc" contenteditable="false">Ammo, crosshair variants, kill-feed.</div></div></div>
+      <div class="wc"><div class="w-img-wrap" onclick="chWork(this)"><span>🎬</span></div><div class="w-overlay">🖼️ Change Image</div><div class="w-body"><div class="w-cat" contenteditable="false">Loading Screen</div><div class="w-name" contenteditable="false">Loading Screen</div><div class="w-desc" contenteditable="false">Branded sequence with progress bar.</div></div></div>
+      <div class="wc"><div class="w-img-wrap" onclick="chWork(this)"><span>🗺️</span></div><div class="w-overlay">🖼️ Change Image</div><div class="w-body"><div class="w-cat" contenteditable="false">Menu · Survival</div><div class="w-name" contenteditable="false">Main Menu</div><div class="w-desc" contenteditable="false">Server browser, settings, credits.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="div"><span class="div-label">04 — FAQ</span></div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="si">
+    <div class="sec-head rv" style="text-align:center">
+      <div class="sec-num">04 / FAQ</div>
+      <h2 class="sec-title">Questions.</h2>
+    </div>
+    <div class="faq-wrap rv">
+      <div class="fi"><div class="fq" onclick="tf(this)"><span contenteditable="false">How do I place an order?</span><div class="farr"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div><div class="fb"><p contenteditable="false">DM me on Discord or use the contact form. Share what you need and a reference if you have one — we agree on scope and price before I start.</p></div></div>
+      <div class="fi"><div class="fq" onclick="tf(this)"><span contenteditable="false">Why reference-based?</span><div class="farr"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div><div class="fb"><p contenteditable="false">References align us on style before any work starts. Less back-and-forth, better result. A screenshot or a game you like is enough.</p></div></div>
+      <div class="fi"><div class="fq" onclick="tf(this)"><span contenteditable="false">Do you accept TL?</span><div class="farr"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div><div class="fb"><p contenteditable="false">Yes — TL is available on request. Robux is primary, but we can work out a TL rate per project.</p></div></div>
+      <div class="fi"><div class="fq" onclick="tf(this)"><span contenteditable="false">How long does it take?</span><div class="farr"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div><div class="fb"><p contenteditable="false">Simple frames: 1–2 days. Larger projects take longer. I'll give you a timeline estimate when we discuss the scope.</p></div></div>
+      <div class="fi"><div class="fq" onclick="tf(this)"><span contenteditable="false">Will it work in Roblox Studio?</span><div class="farr"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div><div class="fb"><p contenteditable="false">Yes. Everything is built with Studio constraints in mind — resolution, image upload sizes and available fonts all considered.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="div"><span class="div-label">05 — Contact</span></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="si">
+    <div class="sec-head rv" style="text-align:center">
+      <div class="sec-num">05 / Contact</div>
+      <h2 class="sec-title">Let's build<br/>something.</h2>
+    </div>
+    <div class="contact-grid rv">
+      <div>
+        <div class="contact-form">
+          <div class="fg"><label>Name / Discord</label><input type="text" id="f-name" placeholder="Player#1234"/></div>
+          <div class="fg"><label>Email (optional)</label><input type="email" id="f-email" placeholder="you@example.com"/></div>
+          <div class="fg"><label>Game / Project</label><input type="text" id="f-game" placeholder="What game is this for?"/></div>
+          <div class="fg"><label>What do you need?</label>
+            <select id="f-type">
+              <option value="">Select type...</option>
+              <option>HUD</option>
+              <option>Shop UI</option>
+              <option>Inventory</option>
+              <option>Loading Screen</option>
+              <option>Main Menu</option>
+              <option>Other / Custom</option>
+            </select>
+          </div>
+          <div class="fg"><label>Details &amp; Reference</label><textarea id="f-details" placeholder="Describe what you need. Paste reference links here."></textarea></div>
+          <button class="form-send" onclick="sendEmail()">→ Send Request</button>
+        </div>
+      </div>
+      <div class="contact-r">
+        <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="clink"><div class="clink-ico"><svg width="18" height="18" fill="#5865F2" viewBox="0 0 24 24"><path d="M20.317 4.37a19.8 19.8 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.74 19.74 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057c.001.022.015.043.033.054a19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.1 13.1 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.84 19.84 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg></div><div><div class="clink-label">Discord</div><div class="clink-val">discord.gg/8vd3MZ5VYH</div></div></a>
+        <a href="https://x.com/stor4m" target="_blank" class="clink"><div class="clink-ico"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div><div><div class="clink-label">Twitter / X</div><div class="clink-val">@stor4m</div></div></a>
+        <div class="info-box">
+          <strong>Response:</strong> ≤ 24 hours<br/>
+          <strong>Status:</strong> <span id="infoStatus" class="neon-txt">Open for commissions</span><br/>
+          <strong>Payment:</strong> Robux · TL on request<br/>
+          <strong>Timezone:</strong> UTC+3 · Turkey<br/>
+          <strong>Email: </strong><span contenteditable="false">your@email.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">M1SLY<sup>®</sup></div>
+  <div class="footer-by">by M1SLY · Roblox UI Designer</div>
+  <div class="footer-links">
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 M1SLY® — All rights reserved.</div>
+</footer>
+
+<!-- EDIT PANEL -->
+<div id="ep">
+  <div id="ep-box">
+    <div class="ep-head">/ Edit Panel</div>
+    <div>
+      <div class="ep-lbl">Availability Status</div>
+      <select class="ep-sel" id="stSel" onchange="chStatus(this.value)">
+        <option value="open">● Open — Available</option>
+        <option value="busy">● Busy — Limited slots</option>
+        <option value="closed">● Closed</option>
+      </select>
+    </div>
+    <div>
+      <div class="ep-lbl">Edit Texts</div>
+      <button class="ep-btn" id="editBtn" onclick="toggleEdit()">✏ Enable Editing</button>
+    </div>
+    <div>
+      <div class="ep-lbl">Profile Photo</div>
+      <button class="ep-btn" onclick="chPhoto()">📷 Change Photo</button>
+    </div>
+    <div class="ep-hint">Editing mode: click any text to change it. Click work card images to update them.</div>
+  </div>
+  <button id="ep-toggle" onclick="document.getElementById('ep-box').classList.toggle('show')">
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    Edit
+  </button>
+</div>
+
+<script>
+// REVEAL
+const ro=new IntersectionObserver(e=>{e.forEach((el,i)=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('in'),i*60);ro.unobserve(el.target);}});},{threshold:0.07});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+// NAV ACTIVE
+const ss=document.querySelectorAll('section[id]'),nn=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{let c='';ss.forEach(s=>{if(window.scrollY>=s.offsetTop-130)c=s.id;});nn.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+c?'var(--neon)':'';});});
+
+// FAQ
+function tf(btn){const it=btn.parentElement,bd=it.querySelector('.fb'),op=it.classList.contains('open');document.querySelectorAll('.fi').forEach(i=>{i.classList.remove('open');i.querySelector('.fb').style.maxHeight='0';});if(!op){it.classList.add('open');bd.style.maxHeight=bd.scrollHeight+40+'px';}}
+
+// STATUS
+function chStatus(v){
+  const dot=document.getElementById('hDot');
+  const txt=document.getElementById('hTxt');
+  const sv=document.getElementById('statusVal');
+  const si=document.getElementById('infoStatus');
+  dot.className='hero-dot';
+  if(v==='open'){
+    txt.textContent='Available for commissions';
+    sv.textContent='● Open'; sv.className='iv iv-g';
+    si.textContent='Open for commissions'; si.className='neon-txt';
+  } else if(v==='busy'){
+    dot.classList.add('busy');
+    txt.textContent='Limited availability';
+    sv.textContent='● Busy'; sv.className='iv iv-y';
+    si.textContent='Limited availability'; si.style.color='#ffb800';
+  } else {
+    dot.classList.add('closed');
+    txt.textContent='Currently closed';
+    sv.textContent='● Closed'; sv.className='iv iv-r';
+    si.textContent='Closed'; si.style.color='var(--neonpk)';
+  }
+}
+
+// EDIT MODE
+let em=false;
+function toggleEdit(){
+  em=!em;
+  document.body.classList.toggle('emode',em);
+  document.querySelectorAll('[contenteditable]').forEach(el=>el.contentEditable=em?'true':'false');
+  const b=document.getElementById('editBtn');
+  b.textContent=em?'✓ Done Editing':'✏ Enable Editing';
+  b.classList.toggle('act',em);
+}
+
+// PROFILE PHOTO
+function chPhoto(){
+  if(!em){alert('Önce Edit panelinden "Enable Editing" e bas!');return;}
+  const u=prompt('Profil fotoğrafı URL gir:\n\nÖrnek: https://i.imgur.com/abc123.jpg');
+  if(!u) return;
+  const p=document.getElementById('profImg');
+  p.innerHTML='<img src="'+u.trim()+'" alt="M1SLY" onerror="this.parentElement.textContent=\'❌\'">';
+}
+
+// WORK IMG
+function chWork(el){
+  if(!em) return;
+  const u=prompt('Görsel URL gir:\n\nÖrnek: https://i.imgur.com/abc123.jpg');
+  if(!u) return;
+  el.innerHTML='<img src="'+u.trim()+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML=\'❌\'">';
+}
+
+// EMAIL (mailto fallback)
+function sendEmail(){
+  const name=document.getElementById('f-name').value;
+  const email=document.getElementById('f-email').value;
+  const game=document.getElementById('f-game').value;
+  const type=document.getElementById('f-type').value;
+  const details=document.getElementById('f-details').value;
+  if(!name||!game||!details){alert('Please fill in Name, Game and Details.');return;}
+  const sub=encodeURIComponent('[M1SLY Commission] '+type+' — '+game);
+  const body=encodeURIComponent('Name/Discord: '+name+'\nEmail: '+(email||'—')+'\nGame: '+game+'\nType: '+type+'\n\nDetails:\n'+details);
+  window.location.href='mailto:your@email.com?subject='+sub+'&body='+body;
+  const btn=document.querySelector('.form-send');
+  const orig=btn.textContent;
+  btn.textContent='✓ Opening mail app...';
+  btn.style.background='#00d4ff';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';},3000);
+}
+</script>
+</body>
+</html>
