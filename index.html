@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>M1SLY — Roblox UI Designer</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono&family=Playfair+Display:wght@900&family=Bebas+Neue&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono&family=Playfair+Display:wght@900&family=Bebas+Neue&family=Courier+Prime:wght@700&family=Impact&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -19,53 +19,84 @@
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden}
 
-/* NOISE & GRID (Orijinal Tasarım) */
+/* NOISE & GRID */
 body::before{content:'';position:fixed;inset:0;z-index:0;opacity:.025;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.04;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:80px 80px;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:18px 56px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
-.logo{font-weight:900;font-size:1.2rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx);text-decoration:none;transition: 0.2s;}
-
+.logo{font-weight:900;font-size:1.2rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx);text-decoration:none;transition: 0.2s; display: flex; align-items: center;}
+.logo-mark{font-size:.65rem;color:var(--neon);vertical-align:super;margin-left:4px;}
 .nav-links{display:flex;gap:36px;list-style:none}
 .nav-links a{color:var(--tx3);text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s}
 .nav-links a:hover{color:var(--tx)}
 
-/* DİĞER TÜM STİLLER (Pricing, Work, Contact vb. Orijinal 500 satırlık kodundan) */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:4px;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:none;border:none;transition:all .25s}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:4px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:none;border:none;transition:all .25s}
 .btn-neon{background:var(--neon);color:#000;box-shadow:0 0 20px rgba(0,255,136,.3)}
 .btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--tx)}
+.btn-discord{background:#5865F2;color:#fff}
 
+/* HERO */
 #hero{min-height:100vh;display:flex;align-items:center;padding:120px 56px 80px;gap:80px;position:relative;z-index:1;justify-content:space-between}
+.hero-l{max-width:580px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3)}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon)}
 .hero-title{font-size:clamp(3rem,5.5vw,5rem);font-weight:900;line-height:1;letter-spacing:-3px;margin-bottom:8px;text-transform:uppercase}
 .nt{display:block;color:var(--neon);text-shadow:0 0 40px rgba(0,255,136,.4)}
 
-/* X.COM FEED ÖZEL STİL */
+/* SECTIONS */
+.si{max-width:1100px;margin:0 auto;padding:88px 56px}
+.sec-head{margin-bottom:56px}
+.sec-num{font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--neon);margin-bottom:8px}
+.sec-title{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;letter-spacing:-2px;text-transform:uppercase;line-height:1}
+
+/* ABOUT */
+#about{background:var(--bg2)}
+.srv-grid{display:flex;flex-direction:column;gap:1px;margin-top:32px;border:1px solid var(--border)}
+.srv{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.pc{background:var(--bg2);padding:32px 28px;transition:all .3s; position: relative; overflow: hidden;}
+.pc.ft{background:var(--bg3); border-top: 2px solid var(--neon);}
+
+/* WORK - X.COM WIDGET */
 .twitter-wrapper {
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 10px;
-    margin-top: 30px;
     box-shadow: var(--glow-g);
 }
 
-/* GİZLİ EDİT PANELİ */
-#ep{display:none; position:fixed; bottom:24px; right:24px; z-index:9999; background:var(--bg2); border:1px solid var(--neon); padding:20px; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,.7)}
-
-/* ... Diğer Section Stilleri (Kısaltıldı ama kodun içinde tam hali var) ... */
-.si{max-width:1100px;margin:0 auto;padding:88px 56px}
-.price-grid, .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
-.pc, .wc{background:var(--bg2);padding:32px 28px;transition:0.3s;}
+/* CONTACT */
 .contact-form{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
-.fg{display:flex;flex-direction:column;background:var(--bg);padding:10px}
-input, textarea, select{background:transparent; border:none; color:#fff; font-family:inherit; outline:none; padding:10px}
+.fg{display:flex;flex-direction:column;background:var(--bg)}
+.fg label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);padding:14px 16px 0}
+.fg input,.fg textarea,.fg select{background:transparent;border:none;padding:10px 16px 14px;color:var(--tx);font-family:inherit;outline:none}
+
+/* FAQ */
+.faq-wrap{border:1px solid var(--border);}
+.fi{border-bottom:1px solid var(--border); transition: 0.3s;}
+.fq{padding: 20px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between;}
+.fb{max-height: 0; overflow: hidden; transition: 0.4s ease-out;}
+.fi.open .fb{max-height: 200px; padding: 0 20px 20px; color: var(--tx2);}
+
+/* ADMIN PANEL (CTRL + L) */
+#ep{display:none;position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--bg2);border:1px solid var(--neon);padding:20px;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+
+@media(max-width:800px){
+  nav{padding:14px 20px}
+  #hero{flex-direction:column;padding:100px 20px 60px}
+  .price-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <a class="logo" href="#hero" id="dynamicLogo">M1SLY</a>
+  <a class="logo" href="#hero" id="dynamicLogo">M1SLY <sup class="logo-mark">®</sup></a>
   <ul class="nav-links">
     <li><a href="#hero">Home</a></li>
     <li><a href="#about">About</a></li>
@@ -74,93 +105,140 @@ input, textarea, select{background:transparent; border:none; color:#fff; font-fa
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <div class="nav-r">
+    <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="btn btn-discord btn-sm" style="padding:8px 18px; font-size:0.7rem;">Discord</a>
+  </div>
 </nav>
 
 <section id="hero">
   <div class="hero-l">
     <div class="hero-eyebrow"><span class="hero-dot"></span><span>Available for commissions</span></div>
     <h1 class="hero-title">Roblox<br/><span class="nt">UI Design</span></h1>
-    <div class="hero-sub-title">By M1SLY®</div>
-    <p class="hero-desc">Interfaces that feel native and look sharp. No templates, no filler.</p>
-    <div class="hero-btns">
+    <div class="hero-sub-title" style="letter-spacing:8px; font-weight:300; margin-bottom:32px; color:var(--tx2);">By M1SLY®</div>
+    <p class="hero-desc" style="color:var(--tx2); margin-bottom:36px; line-height: 1.8;">Interfaces that feel native, look sharp and work exactly how players expect. Every screen designed with intent.</p>
+    <div class="hero-btns" style="display:flex; gap:12px;">
       <a href="#work" class="btn btn-neon">View Work</a>
-      <a href="#contact" class="btn btn-ghost">Contact</a>
+      <a href="#pricing" class="btn btn-ghost">Pricing</a>
     </div>
   </div>
   <div class="hero-r">
-    <div style="width:300px; height:350px; border:1px solid var(--neon); display:flex; align-items:center; justify-content:center; font-size:4rem;">🎨</div>
+    <div style="width:320px; height:380px; border:1px solid var(--neon); position:relative; display:flex; align-items:center; justify-content:center; font-size:5rem; background: var(--bg3);">🎨</div>
   </div>
 </section>
 
 <section id="about" class="si">
-  <h2 class="hero-title" style="font-size:3rem">01 / ABOUT</h2>
-  <p>I design clean layouts and immersive interaction for Roblox games.</p>
-</section>
-
-<section id="pricing" class="si">
-  <h2 class="hero-title" style="font-size:3rem">02 / PRICING</h2>
-  <div class="price-grid">
-    <div class="pc"><h3>Starter</h3><p>500 - 1K Robux</p></div>
-    <div class="pc"><h3>General</h3><p>2K - 5K Robux</p></div>
-    <div class="pc"><h3>Custom</h3><p>Let's talk</p></div>
+  <div class="sec-head"><div class="sec-num">01 / About</div><h2 class="sec-title">Built with<br/>Intent.</h2></div>
+  <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:80px;">
+    <div>
+      <p style="color:var(--tx2); line-height:1.9; margin-bottom:20px;">I design Roblox game interfaces that feel native to the platform — clean layouts, sharp typography and smooth interactions.</p>
+      <div class="srv-grid">
+        <div class="srv">▸ <div><strong>Any Roblox UI type</strong><br/><span style="font-size:0.7rem; color:var(--tx3)">HUDs, menus, shops, inventories</span></div></div>
+        <div class="srv">▸ <div><strong>Studio-ready output</strong><br/><span style="font-size:0.7rem; color:var(--tx3)">Image sizes, font compatibility</span></div></div>
+      </div>
+    </div>
+    <div style="background:var(--card); padding:20px; border:1px solid var(--border);">
+        <div style="font-size:0.6rem; color:var(--neon); margin-bottom:15px; letter-spacing:2px;">QUICK INFO</div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding:8px 0;"><span>Payment</span><strong>Robux / TL</strong></div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding:8px 0;"><span>Timezone</span><strong>UTC+3</strong></div>
+        <div style="display:flex; justify-content:space-between; padding:8px 0;"><span>Status</span><strong style="color:var(--neon)">● Open</strong></div>
+    </div>
   </div>
 </section>
 
-<section id="work" class="si">
-  <h2 class="hero-title" style="font-size:3rem">03 / WORK</h2>
+<section id="pricing" class="si" style="background:var(--bg)">
+  <div class="sec-head" style="text-align:center"><div class="sec-num">02 / Pricing</div><h2 class="sec-title">Flat rate.</h2></div>
+  <div class="price-grid">
+    <div class="pc">
+      <span style="font-size:0.6rem; color:var(--tx3); letter-spacing: 2px;">STARTER</span>
+      <div style="font-size:2rem; font-weight:900; margin:10px 0;">500–1K</div>
+      <p style="color:var(--tx3); font-size: 0.8rem;">Single frame or small panel</p>
+    </div>
+    <div class="pc ft">
+      <span style="font-size:0.6rem; color:var(--neon); letter-spacing: 2px;">★ MOST POPULAR</span>
+      <div style="font-size:2rem; font-weight:900; margin:10px 0;">2K–5K</div>
+      <p style="color:var(--tx3); font-size: 0.8rem;">Full HUD / multi-screen</p>
+    </div>
+    <div class="pc">
+      <span style="font-size:0.6rem; color:var(--tx3); letter-spacing: 2px;">CUSTOM</span>
+      <div style="font-size:2rem; font-weight:900; margin:10px 0;">Quote</div>
+      <p style="color:var(--tx3); font-size: 0.8rem;">Larger or complex scopes</p>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="si" style="background:var(--bg2)">
+  <div class="sec-head"><div class="sec-num">03 / Work</div><h2 class="sec-title">Selected Projects.</h2></div>
   <div class="twitter-wrapper">
-    <a class="twitter-timeline" data-height="600" data-theme="dark" href="https://twitter.com/stor4m?ref_src=twsrc%5Etfw">Loading tweets...</a> 
+    <a class="twitter-timeline" data-height="650" data-theme="dark" href="https://twitter.com/stor4m?ref_src=twsrc%5Etfw">Loading tweets...</a> 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   </div>
 </section>
 
-<section id="contact" class="si">
-  <h2 class="hero-title" style="font-size:3rem">05 / CONTACT</h2>
-  <div class="contact-form">
-    <div class="fg"><input type="text" id="f-name" placeholder="Discord User"></div>
-    <div class="fg"><input type="text" id="f-game" placeholder="Game Link"></div>
-    <div class="fg">
-        <select id="f-type">
-            <option>Full UI</option>
-            <option>Asset Pack</option>
-        </select>
+<section id="faq" class="si">
+  <div class="sec-head" style="text-align:center"><div class="sec-num">04 / FAQ</div><h2 class="sec-title">Questions.</h2></div>
+  <div class="faq-wrap">
+    <div class="fi" onclick="this.classList.toggle('open')">
+      <div class="fq">How do I place an order? <span>+</span></div>
+      <div class="fb"><p>DM me on Discord or use the contact form. We agree on scope and price before I start.</p></div>
     </div>
-    <div class="fg"><textarea id="f-details" placeholder="Details..."></textarea></div>
-    <button class="btn btn-neon" onclick="sendEmail()" style="width:100%; border-radius:0">→ Send Request</button>
+    <div class="fi" onclick="this.classList.toggle('open')">
+      <div class="fq">Do you accept TL? <span>+</span></div>
+      <div class="fb"><p>Yes, TL is available on request. Robux is primary, but we can work out a TL rate.</p></div>
+    </div>
   </div>
 </section>
 
+<section id="contact" class="si" style="background:var(--bg2)">
+  <div class="sec-head" style="text-align:center"><div class="sec-num">05 / Contact</div><h2 class="sec-title">Let's build.</h2></div>
+  <div style="max-width:600px; margin:0 auto;">
+    <div class="contact-form">
+      <div class="fg"><label>Discord Username</label><input type="text" id="f-name" placeholder="User#0000"></div>
+      <div class="fg"><label>Game / Project Link</label><input type="text" id="f-game" placeholder="Roblox link"></div>
+      <div class="fg"><label>Details</label><textarea id="f-details" rows="5" placeholder="Tell me about your project..."></textarea></div>
+      <button class="btn btn-neon" style="width:100%; border-radius:0; padding:20px;" onclick="sendEmail()">→ Send Request</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+    <div style="text-align: center; padding: 40px; border-top: 1px solid var(--border); color: var(--tx3); font-size: 0.7rem; letter-spacing: 2px;">
+        © 2026 M1SLY — ALL RIGHTS RESERVED
+    </div>
+</footer>
+
 <div id="ep">
-  <h4 style="color:var(--neon)">ADMIN PANEL</h4>
-  <button onclick="location.reload()" style="padding:10px; cursor:pointer; width:100%; margin-top:10px;">Sayfayı Yenile</button>
+  <h4 style="color:var(--neon); margin-bottom:10px;">ADMIN PANEL</h4>
+  <p style="font-size:10px; color:var(--tx3)">Gizli Mod Aktif.</p>
+  <button onclick="location.reload()" style="margin-top:10px; width:100%; cursor:pointer; padding: 5px;">Refresh</button>
 </div>
 
 <script>
-// 1. DİNAMİK FONT LOGO
+// 1. LOGO FONT ANIMASYONU
 const fonts = ['Inter', 'Space Mono', 'Playfair Display', 'Bebas Neue', 'Courier Prime', 'Impact'];
 let fIdx = 0;
 setInterval(() => {
-  document.getElementById('dynamicLogo').style.fontFamily = fonts[fIdx];
+  const logo = document.getElementById('dynamicLogo');
+  logo.style.fontFamily = fonts[fIdx];
   fIdx = (fIdx + 1) % fonts.length;
 }, 1000);
 
 // 2. GİZLİ PANEL (CTRL + L)
 document.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key === 'l') {
+    e.preventDefault();
     const p = document.getElementById('ep');
     p.style.display = (p.style.display === 'block') ? 'none' : 'block';
   }
 });
 
-// 3. FORM GÖNDERME (Orijinal Fonksiyonun)
+// 3. MAIL GÖNDERME
 function sendEmail(){
   const n=document.getElementById('f-name').value;
   const g=document.getElementById('f-game').value;
   const d=document.getElementById('f-details').value;
-  if(!n || !d){ alert('Eksik alan var!'); return; }
-  window.location.href = `mailto:iletisim@example.com?subject=Commission&body=Discord: ${n}%0D%0AGame: ${g}%0D%0AContent: ${d}`;
+  if(!n || !d){ alert('Please fill Discord and Details.'); return; }
+  window.location.href = `mailto:iletisim@example.com?subject=Commission&body=Discord: ${n}%0AProject: ${g}%0ADetails: ${d}`;
 }
 </script>
-
 </body>
 </html>
