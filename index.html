@@ -9,25 +9,17 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <style>
-        :root{
-            --bg:#030303;--text:#f0f0f0;--t2:#888;--t3:#444;
-            --b1:rgba(255,255,255,.05);--b2:rgba(255,255,255,.09);
-            --gl:rgba(255,255,255,.025);--gl2:rgba(255,255,255,.05);
-        }
+        :root{--bg:#030303;--text:#f0f0f0;--t2:#888;--t3:#444;--b1:rgba(255,255,255,.05);--b2:rgba(255,255,255,.09);--gl:rgba(255,255,255,.025);--gl2:rgba(255,255,255,.05)}
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
         ::selection{background:#fff;color:#000}
         ::-webkit-scrollbar{width:2px}
         ::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
-
-        .noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.02;
-            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
+        .noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
         .gl{background:var(--gl);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--b1);transition:.3s}
         .gl:hover{background:var(--gl2);border-color:var(--b2)}
 
-        /* NAV */
         nav{position:fixed;top:0;width:100%;z-index:1000;padding:14px 0;transition:.4s}
         nav.s{background:rgba(3,3,3,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1);padding:8px 0}
         .ni{max-width:960px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center}
@@ -38,7 +30,7 @@
         .logo-tx{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--text);letter-spacing:-1px}
         .logo-tx span{opacity:.35}
         .nl{display:flex;list-style:none;gap:1px;align-items:center}
-        .nl a{color:var(--t2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:500;transition:.3s;letter-spacing:.3px}
+        .nl a{color:var(--t2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:500;transition:.3s}
         .nl a:hover,.nl a.on{color:var(--text)}
         .cb{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:14px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-left:4px}
         .cb.o{background:rgba(255,255,255,.04);color:var(--text);border:1px solid rgba(255,255,255,.07)}
@@ -53,7 +45,6 @@
         .hm.on span:nth-child(2){opacity:0}
         .hm.on span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
 
-        /* HERO */
         .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;padding:100px 28px 60px}
         .hc{text-align:center;max-width:520px;position:relative;z-index:1}
         .h-av{width:76px;height:76px;border-radius:50%;margin:0 auto 18px;overflow:hidden;border:1.5px solid var(--b2);position:relative}
@@ -64,13 +55,13 @@
         .h-dot.off{background:var(--t3)}
         .h-name{font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:6px;line-height:1.1}
         .h-role{font-size:10px;color:var(--t3);letter-spacing:3px;text-transform:uppercase;font-weight:400;margin-bottom:6px}
-        .h-meta{display:flex;gap:16px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
-        .h-meta-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--t2);letter-spacing:.5px}
-        .h-meta-item i{font-size:9px;opacity:.4}
+        .h-meta{display:flex;gap:14px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+        .h-mi{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--t2)}
+        .h-mi i{font-size:9px;opacity:.4}
         .h-bio{font-size:12px;color:var(--t2);line-height:1.9;margin-bottom:24px;font-weight:300}
         .h-links{display:flex;gap:6px;justify-content:center;margin-bottom:28px}
         .h-lk{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t2);text-decoration:none;transition:.3s}
-        .h-lk:hover{color:var(--text);transform:translateY(-1px);border-color:var(--b2)}
+        .h-lk:hover{color:var(--text);transform:translateY(-1px)}
         .h-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
         .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-size:11px;font-weight:500;text-decoration:none;transition:.3s;cursor:pointer;border:none;font-family:'Inter',sans-serif}
         .bw{background:#fff;color:#000}
@@ -78,7 +69,6 @@
         .bo{background:transparent;color:var(--t2);border:1px solid var(--b1)}
         .bo:hover{color:var(--text);border-color:var(--b2);transform:translateY(-1px)}
 
-        /* SECTIONS */
         section{padding:64px 28px;position:relative;z-index:1}
         .sh{text-align:center;margin-bottom:36px}
         .stg{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:var(--t3);margin-bottom:7px;display:block}
@@ -86,55 +76,41 @@
         .sdd{color:var(--t3);font-size:11px;max-width:320px;margin:0 auto;line-height:1.8;font-weight:300}
         .dv{width:100%;height:1px;background:var(--b1);z-index:1;position:relative}
 
-        /* SERVICES */
         .sv-g{max-width:700px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-        .sv-c{border-radius:10px;padding:20px 18px;text-align:left}
+        .sv-c{border-radius:10px;padding:20px 18px}
         .sv-c i{font-size:12px;color:var(--t3);margin-bottom:10px;display:block}
-        .sv-c h4{font-size:12px;font-weight:600;margin-bottom:5px;letter-spacing:-.2px}
+        .sv-c h4{font-size:12px;font-weight:600;margin-bottom:5px}
         .sv-c p{font-size:10px;color:var(--t3);line-height:1.7;font-weight:300}
 
-        /* PROJECTS */
         .pj-g{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
-        .pj-c{border-radius:10px;overflow:hidden;transition:.35s}
+        .pj-c{border-radius:10px;overflow:hidden;transition:.35s;cursor:pointer}
         .pj-c:hover{transform:translateY(-3px);border-color:var(--b2)}
         .pj-img{position:relative;height:180px;overflow:hidden;background:#060606}
         .pj-img img{width:100%;height:100%;object-fit:cover;transition:.4s}
         .pj-c:hover .pj-img img{transform:scale(1.03)}
         .pj-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#060606;color:var(--t3);font-size:10px;letter-spacing:2px;text-transform:uppercase}
         .pj-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,3,3,.9),transparent 45%)}
+        .pj-twi{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:5px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t2)}
         .pj-b{padding:12px 16px}
         .pj-tags{display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap}
         .pj-tag{padding:2px 6px;border-radius:3px;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;background:rgba(255,255,255,.04);color:var(--t2);border:1px solid var(--b1)}
-        .pj-n{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;margin-bottom:2px;letter-spacing:-.3px}
+        .pj-n{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;margin-bottom:2px}
         .pj-d{font-size:10px;color:var(--t3);line-height:1.6;font-weight:300}
 
-        /* PRICING */
-        .pr-wrap{max-width:560px;margin:0 auto}
+        .pr-wrap{max-width:520px;margin:0 auto}
         .pr-desc{font-size:12px;color:var(--t2);line-height:1.9;font-weight:300;text-align:center;margin-bottom:24px}
-        .pr-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+        .pr-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
         .pr-card{border-radius:10px;padding:22px 18px;text-align:center}
-        .pr-card-label{font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-weight:500}
-        .pr-card-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
-        .pr-card-note{font-size:9px;color:var(--t3);font-weight:300}
+        .pr-cl{font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-weight:500}
+        .pr-cp{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+        .pr-cn{font-size:9px;color:var(--t3);font-weight:300}
         .pr-inc{border-radius:10px;padding:22px 20px}
-        .pr-inc-title{font-size:10px;font-weight:600;margin-bottom:12px;letter-spacing:.5px;color:var(--t2);text-transform:uppercase}
+        .pr-inc-t{font-size:10px;font-weight:600;margin-bottom:12px;color:var(--t2);text-transform:uppercase;letter-spacing:1px}
         .pr-inc ul{list-style:none;display:flex;flex-direction:column;gap:7px}
         .pr-inc li{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t2);font-weight:300}
         .pr-inc li::before{content:'';width:3px;height:3px;border-radius:50%;background:var(--t3);flex-shrink:0}
-        .pr-foot{margin-top:16px;text-align:center;font-size:10px;color:var(--t3);line-height:1.8;font-weight:300}
+        .pr-ft{margin-top:16px;text-align:center;font-size:10px;color:var(--t3);line-height:1.8;font-weight:300}
 
-        /* REVIEWS */
-        .rv-g{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
-        .rv-c{border-radius:10px;padding:18px;transition:.3s}
-        .rv-c:hover{transform:translateY(-2px)}
-        .rv-s{color:var(--text);font-size:8px;margin-bottom:10px;letter-spacing:2px;opacity:.2}
-        .rv-t{font-size:11px;color:var(--t2);line-height:1.8;margin-bottom:12px;font-weight:300;font-style:italic}
-        .rv-a{display:flex;align-items:center;gap:8px}
-        .rv-p{width:26px;height:26px;border-radius:6px;background:var(--b2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--bg)}
-        .rv-nm{font-size:11px;font-weight:600}
-        .rv-rl{font-size:8px;color:var(--t3)}
-
-        /* CONTACT */
         .ct{max-width:400px;margin:0 auto;text-align:center}
         .ct>p{color:var(--t2);font-size:11px;line-height:1.8;margin-bottom:20px;font-weight:300}
         .ct-g{display:flex;flex-direction:column;gap:6px}
@@ -144,27 +120,30 @@
         .ct-pl{font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px}
         .ct-vl{font-size:12px;font-weight:500}
 
-        /* FOOTER */
         footer{padding:18px 28px;border-top:1px solid var(--b1);position:relative;z-index:1}
         .fw{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-        .ft{font-size:9px;color:var(--t3);font-weight:300}
+        .ftt{font-size:9px;color:var(--t3);font-weight:300}
         .fss{display:flex;gap:4px}
         .fss a{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:5px;font-size:10px;color:var(--t3);text-decoration:none;transition:.3s}
-        .fss a:hover{color:var(--text);transform:translateY(-1px)}
+        .fss a:hover{color:var(--text)}
 
-        /* ADMIN */
+        .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);backdrop-filter:blur(24px);z-index:99998;align-items:center;justify-content:center;cursor:zoom-out;padding:20px}
+        .lb.show{display:flex}
+        .lb img{max-width:90vw;max-height:85vh;border-radius:8px;object-fit:contain}
+        .lb-x{position:absolute;top:16px;right:20px;color:var(--t2);font-size:16px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:.3s}
+        .lb-x:hover{color:var(--text)}
+        .lb-src{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;font-size:10px;color:var(--t3);text-decoration:none;padding:6px 12px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid var(--b1)}
+        .lb-src:hover{color:var(--t2)}
+
         .ao{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);z-index:99999;align-items:center;justify-content:center}
         .ao.show{display:flex}
         .ap{background:#060606;border:1px solid var(--b1);border-radius:12px;padding:26px;max-width:280px;width:88%;text-align:center}
         .ap h3{font-family:'Syne',sans-serif;font-size:14px;margin-bottom:2px}
         .ap>p{color:var(--t3);font-size:9px;margin-bottom:14px}
         .pw-w input{width:100%;padding:8px 12px;background:var(--gl);border:1px solid var(--b1);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:11px;outline:none;text-align:center;letter-spacing:3px}
-        .pw-w input:focus{border-color:var(--b2)}
         .pw-e{font-size:8px;color:#555;margin-top:4px;min-height:11px}
-        .pw-b{padding:7px 16px;background:#fff;color:#000;border:none;border-radius:5px;cursor:pointer;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;margin-top:7px;transition:.3s}
-        .pw-b:hover{opacity:.8}
-        .adm-c{display:none}
-        .adm-c.u{display:block}
+        .pw-b{padding:7px 16px;background:#fff;color:#000;border:none;border-radius:5px;cursor:pointer;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;margin-top:7px}
+        .adm-c{display:none}.adm-c.u{display:block}
         .tr{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
         .tl{font-size:10px;color:var(--t2)}
         .tw{position:relative;width:38px;height:18px;cursor:pointer;display:inline-block}
@@ -180,18 +159,14 @@
         .a-badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:7px;font-weight:700;letter-spacing:1.5px;margin-bottom:10px;text-transform:uppercase}
         .a-badge.live{background:rgba(255,255,255,.05);color:var(--text)}
         .a-badge.local{background:rgba(255,255,255,.02);color:var(--t3)}
-        .a-cl{padding:5px 14px;background:var(--gl);border:1px solid var(--b1);border-radius:5px;color:var(--t2);cursor:pointer;font-size:9px;font-family:'Inter',sans-serif;transition:.3s}
-        .a-cl:hover{color:var(--text)}
-
+        .a-cl{padding:5px 14px;background:var(--gl);border:1px solid var(--b1);border-radius:5px;color:var(--t2);cursor:pointer;font-size:9px;font-family:'Inter',sans-serif}
         .fi{opacity:0;transform:translateY(16px);transition:.5s cubic-bezier(.16,1,.3,1)}
         .fi.v{opacity:1;transform:translateY(0)}
-
         @media(max-width:768px){
             .nl{display:none;position:fixed;inset:0;background:rgba(3,3,3,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:8px}
             .nl.open{display:flex}.hm{display:flex}
             section{padding:44px 16px}.hero{padding:76px 16px 36px}
             .pj-g{grid-template-columns:1fr}
-            .rv-g{grid-template-columns:1fr}
             .sv-g{grid-template-columns:1fr}
             .pr-cards{grid-template-columns:1fr}
             .fw{flex-direction:column;text-align:center}
@@ -203,7 +178,12 @@
 
 <div class="noise"></div>
 
-<!-- ADMIN -->
+<div class="lb" id="lb" onclick="closeLb()">
+    <div class="lb-x"><i class="fas fa-times"></i></div>
+    <img id="lbImg" src="" alt="">
+    <a id="lbSrc" href="" target="_blank" class="lb-src" onclick="event.stopPropagation()"><i class="fab fa-x-twitter"></i> View on Twitter</a>
+</div>
+
 <div class="ao" id="adm">
     <div class="ap">
         <h3>Admin</h3>
@@ -216,8 +196,8 @@
             <button class="pw-b" onclick="chkPw()">Unlock</button>
         </div>
         <div class="adm-c" id="admC">
-            <div class="a-badge" id="admBdg">LIVE</div>
-            <div class="a-st" id="aSt">Status: Open</div>
+            <div class="a-badge" id="admBdg"></div>
+            <div class="a-st" id="aSt"></div>
             <div class="tr">
                 <span class="tl">Closed</span>
                 <label class="tw"><input type="checkbox" id="cTog" checked><div class="ts"></div></label>
@@ -232,18 +212,8 @@
 <nav id="nav">
     <div class="ni">
         <a href="#home" class="logo" id="logoEl"></a>
-        <div class="hm" id="hm" onclick="this.classList.toggle('on');document.getElementById('nl').classList.toggle('open')">
-            <span></span><span></span><span></span>
-        </div>
-        <ul class="nl" id="nl">
-            <li><a href="#home" onclick="cm()">Home</a></li>
-            <li><a href="#services" onclick="cm()">Services</a></li>
-            <li><a href="#projects" onclick="cm()">Projects</a></li>
-            <li><a href="#pricing" onclick="cm()">Pricing</a></li>
-            <li><a href="#reviews" onclick="cm()">Reviews</a></li>
-            <li><a href="#contact" onclick="cm()">Contact</a></li>
-            <li><span class="cb o" id="cB"><span class="cd"></span><span id="cT">OPEN</span></span></li>
-        </ul>
+        <div class="hm" id="hm" onclick="this.classList.toggle('on');document.getElementById('nl').classList.toggle('open')"><span></span><span></span><span></span></div>
+        <ul class="nl" id="nl"></ul>
     </div>
 </nav>
 
@@ -255,134 +225,133 @@
         <div class="h-meta" id="hMeta"></div>
         <div class="h-bio" id="hBi"></div>
         <div class="h-links" id="hLk"></div>
-        <div class="h-btns">
-            <a href="#contact" class="btn bw"><i class="fas fa-arrow-right"></i> Commission Me</a>
-            <a href="#projects" class="btn bo"><i class="fas fa-eye"></i> View Work</a>
-        </div>
+        <div class="h-btns" id="hBtns"></div>
     </div>
 </section>
-
 <div class="dv"></div>
 
 <section id="services">
-    <div class="sh fi">
-        <span class="stg">Services</span>
-        <h2 class="stt">What I Do</h2>
-        <p class="sdd" id="svcNote"></p>
-    </div>
-    <div class="sv-g" id="svcGrid"></div>
+    <div class="sh fi"><span class="stg" id="svcTag"></span><h2 class="stt" id="svcTitle"></h2><p class="sdd" id="svcNote"></p></div>
+    <div class="sv-g" id="svcG"></div>
 </section>
-
 <div class="dv"></div>
 
 <section id="projects">
-    <div class="sh fi">
-        <span class="stg">Portfolio</span>
-        <h2 class="stt">Recent Work</h2>
-    </div>
-    <div class="pj-g" id="pjGrid"></div>
+    <div class="sh fi"><span class="stg" id="pjTag"></span><h2 class="stt" id="pjTitle"></h2><p class="sdd" id="pjNote"></p></div>
+    <div class="pj-g" id="pjG"></div>
 </section>
-
 <div class="dv"></div>
 
 <section id="pricing">
-    <div class="sh fi">
-        <span class="stg">Pricing</span>
-        <h2 class="stt">Rates</h2>
-    </div>
+    <div class="sh fi"><span class="stg" id="prTag"></span><h2 class="stt" id="prTitle"></h2></div>
     <div class="pr-wrap fi">
-        <div class="pr-desc" id="prDesc"></div>
-        <div class="pr-cards" id="prCards"></div>
-        <div class="pr-inc gl" id="prInc"></div>
-        <div class="pr-foot" id="prFoot"></div>
+        <div class="pr-desc" id="prD"></div>
+        <div class="pr-cards" id="prC"></div>
+        <div class="pr-inc gl" id="prI"></div>
+        <div class="pr-ft" id="prF"></div>
     </div>
 </section>
-
-<div class="dv"></div>
-
-<section id="reviews">
-    <div class="sh fi">
-        <span class="stg">Feedback</span>
-        <h2 class="stt">Client Reviews</h2>
-    </div>
-    <div class="rv-g" id="rvGrid"></div>
-</section>
-
 <div class="dv"></div>
 
 <section id="contact">
-    <div class="sh fi">
-        <span class="stg">Contact</span>
-        <h2 class="stt">Get in Touch</h2>
-    </div>
-    <div class="ct fi">
-        <p id="ctD"></p>
-        <div class="ct-g" id="ctL"></div>
-    </div>
+    <div class="sh fi"><span class="stg" id="ctTag"></span><h2 class="stt" id="ctTitle"></h2></div>
+    <div class="ct fi"><p id="ctD"></p><div class="ct-g" id="ctL"></div></div>
 </section>
 
-<footer>
-    <div class="fw">
-        <div class="ft" id="ftT"></div>
-        <div class="fss" id="ftS"></div>
-    </div>
-</footer>
+<footer><div class="fw"><div class="ftt" id="ftT"></div><div class="fss" id="ftS"></div></div></footer>
 
 <script>
 /*
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║    ██████  ██████  ███    ██ ███████ ██  ██████               ║
-║   ██      ██    ██ ████   ██ ██      ██ ██                    ║
-║   ██      ██    ██ ██ ██  ██ █████   ██ ██   ███              ║
-║   ██      ██    ██ ██  ██ ██ ██      ██ ██    ██              ║
-║    ██████  ██████  ██   ████ ██      ██  ██████               ║
-║                                                              ║
-║   Edit below → Save → Push to GitHub → Site updates.         ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║     ██████  ██████  ███    ██ ███████ ██  ██████                 ║
+║    ██      ██    ██ ████   ██ ██      ██ ██                      ║
+║    ██      ██    ██ ██ ██  ██ █████   ██ ██   ███                ║
+║    ██      ██    ██ ██  ██ ██ ██      ██ ██    ██                ║
+║     ██████  ██████  ██   ████ ██      ██  ██████                 ║
+║                                                                  ║
+║    EVERYTHING IS HERE. EDIT → SAVE → PUSH TO GITHUB.             ║
+║    Your site updates automatically.                              ║
+║                                                                  ║
+║    Admin shortcut: Ctrl + Shift + K                              ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
 */
 
 const CONFIG = {
 
 
-// ═══════════ BRANDING ═══════════
+// ╔══════════════════════════════════════════════╗
+// ║           🏷️  BRANDING                       ║
+// ║  Your name, logo, title — the identity       ║
+// ╚══════════════════════════════════════════════╝
 
-    // Your display name
+    // Display name (shown in hero section)
     name: "emsly",
 
-    // Navbar logo text — use | to split: left=bright, right=dim
+    // Navbar logo text
+    // Use | to split color: left part = bright, right part = dim
+    // Example: "ems|ly" shows "ems" white and "ly" gray
     logoText: "ems|ly",
 
-    // Logo icon: emoji "🎨" or image "logo.png" or "" for none
+    // Logo icon next to text
+    // Options:
+    //   emoji   → "🎨"
+    //   image   → "logo.png"  (put file in your GitHub repo)
+    //   nothing → ""
     logoIcon: "",
 
-    // Role shown under name
+    // Your role/title
     role: "UI Designer",
 
-    // Footer text
+    // Footer copyright
     footer: "© 2024 emsly",
 
+    // Browser tab title (shows as "name | role")
+    // Automatically generated from name + role above
 
-// ═══════════ ADMIN ═══════════
 
-    // Password for admin panel (Ctrl+Shift+K)
+// ╔══════════════════════════════════════════════╗
+// ║           🔒 ADMIN                           ║
+// ║  Password for the admin panel                ║
+// ║  Open with: Ctrl + Shift + K                 ║
+// ╚══════════════════════════════════════════════╝
+
     adminPassword: "emsly123",
 
 
-// ═══════════ COMMISSION STATUS ═══════════
+// ╔══════════════════════════════════════════════╗
+// ║           🟢 COMMISSION STATUS               ║
+// ║                                              ║
+// ║  true  = OPEN  (white glowing dot)           ║
+// ║  false = CLOSED (gray dot)                   ║
+// ║                                              ║
+// ║  WITHOUT Firebase:                           ║
+// ║    Change here → push to GitHub → done       ║
+// ║                                              ║
+// ║  WITH Firebase:                              ║
+// ║    Ctrl+Shift+K → password → toggle          ║
+// ║    Everyone sees it instantly                 ║
+// ╚══════════════════════════════════════════════╝
+
     commissionsOpen: true,
 
 
-// ═══════════ FIREBASE ═══════════
-//
-// With Firebase → toggle from admin → EVERYONE sees instantly
-// Without → change commissionsOpen above → push to GitHub
-//
-// Setup: https://console.firebase.google.com
-// 1. Add project → 2. Realtime Database → Test Mode
-// 3. Project settings → Your apps → </> → Copy config
-// Leave apiKey "" to skip
+// ╔══════════════════════════════════════════════╗
+// ║           🔥 FIREBASE                        ║
+// ║                                              ║
+// ║  Makes commission toggle work for everyone   ║
+// ║  in real-time. Free. One-time setup.         ║
+// ║                                              ║
+// ║  1. https://console.firebase.google.com      ║
+// ║  2. Add project → create                     ║
+// ║  3. Build → Realtime Database → Test Mode    ║
+// ║  4. ⚙️ Project settings → Your apps → </>    ║
+// ║  5. Copy config values below                 ║
+// ║  6. Push to GitHub                           ║
+// ║                                              ║
+// ║  Leave apiKey "" to skip Firebase             ║
+// ╚══════════════════════════════════════════════╝
 
     firebase: {
         apiKey: "",
@@ -395,29 +364,45 @@ const CONFIG = {
     },
 
 
-// ═══════════ HERO / BIO ═══════════
+// ╔══════════════════════════════════════════════╗
+// ║           👤 HERO / BIO                      ║
+// ║  Profile picture, bio text, info badges      ║
+// ╚══════════════════════════════════════════════╝
 
-    // Profile pic: emoji "🎨" or file "pfp.png" or URL
+    // Profile picture
+    // Options:
+    //   emoji → "🎨"
+    //   file  → "pfp.png"
+    //   url   → "https://..."
     avatar: "🎨",
 
-    // Bio text
+    // Short bio about yourself
     bio: "I design clean, clear, and in-game friendly user interfaces for Roblox games. I focus on layout, readability, and usability.",
 
-    // Info badges shown under role
+    // Info badges under your role
     meta: [
-        { icon: "fas fa-coins", text: "Robux" },
-        { icon: "fas fa-tasks", text: "Per Task" },
-        { icon: "fas fa-image", text: "Reference Based" },
+        { icon: "fas fa-coins",  text: "Robux" },
+        { icon: "fas fa-tasks",  text: "Per Task" },
+        { icon: "fas fa-image",  text: "Reference Based" },
+    ],
+
+    // Hero buttons
+    buttons: [
+        { text: "Commission Me", icon: "fas fa-arrow-right", link: "#contact", style: "primary" },
+        { text: "View Work",     icon: "fas fa-eye",         link: "#projects", style: "outline" },
     ],
 
 
-// ═══════════ SOCIAL LINKS ═══════════
+// ╔══════════════════════════════════════════════╗
+// ║           🔗 SOCIAL LINKS                    ║
+// ║  Shown in hero, contact section, and footer  ║
+// ╚══════════════════════════════════════════════╝
 
     socials: [
         {
-            platform: "Twitter / X",
-            icon: "fab fa-x-twitter",
-            label: "@your_twitter",
+            platform: "Twitter / X",         // Platform name
+            icon: "fab fa-x-twitter",        // FontAwesome icon
+            label: "@your_twitter",          // Display text
             url: "https://x.com/your_twitter",
         },
         {
@@ -426,73 +411,110 @@ const CONFIG = {
             label: "yourname",
             url: "https://discord.com/users/YOUR_DISCORD_ID",
         },
+        // Add more:
+        // {
+        //     platform: "Roblox",
+        //     icon: "fas fa-gamepad",
+        //     label: "YourRobloxName",
+        //     url: "https://www.roblox.com/users/YOUR_ID/profile",
+        // },
     ],
 
 
-// ═══════════ SERVICES ═══════════
+// ╔══════════════════════════════════════════════╗
+// ║           🛠️ SERVICES                        ║
+// ║  What you offer                              ║
+// ╚══════════════════════════════════════════════╝
 
+    // Section labels (you can change these too)
+    servicesTag: "Services",
+    servicesTitle: "What I Do",
     servicesNote: "Reference-based UI requests are preferred.",
 
     services: [
         {
             icon: "fas fa-palette",
             title: "All Types of UI",
-            desc: "Any kind of UI design for Roblox games — menus, HUDs, shops, inventories, and more.",
+            desc: "Any UI for Roblox — menus, HUDs, shops, inventories, and more.",
         },
         {
             icon: "fas fa-gamepad",
             title: "Game-Concept Based",
-            desc: "Custom UI tailored to your game's theme, style, and target audience.",
+            desc: "Custom UI tailored to your game's theme and style.",
         },
         {
             icon: "fas fa-cube",
             title: "Studio Compatible",
-            desc: "Interfaces designed to work seamlessly inside Roblox Studio.",
+            desc: "Designed to work seamlessly inside Roblox Studio.",
         },
         {
             icon: "fas fa-rotate",
             title: "Revisions Included",
-            desc: "Not happy with something? I'll revise until you're satisfied with the result.",
+            desc: "I'll revise until you're satisfied with the result.",
         },
     ],
 
 
-// ═══════════ PROJECTS ═══════════
-// image: "" (placeholder) or emoji "🎮" or file "project1.png" or URL
+// ╔══════════════════════════════════════════════╗
+// ║           🖼️ PROJECTS                        ║
+// ║                                              ║
+// ║  HOW TO ADD IMAGES FROM TWITTER:             ║
+// ║                                              ║
+// ║  1. Open your tweet                          ║
+// ║  2. Click on the image (full size)           ║
+// ║  3. Right-click → "Copy image address"       ║
+// ║  4. Paste as "image" value below             ║
+// ║                                              ║
+// ║  URL looks like:                             ║
+// ║  https://pbs.twimg.com/media/XXX?format=jpg  ║
+// ║                                              ║
+// ║  tweetUrl = link to original tweet           ║
+// ║  (optional, shows Twitter icon on card)      ║
+// ╚══════════════════════════════════════════════╝
+
+    projectsTag: "Portfolio",
+    projectsTitle: "Recent Work",
+    projectsNote: "",
 
     projects: [
         {
-            image: "",
+            image: "",           // Twitter image URL or local file
+            tweetUrl: "",        // Tweet link (optional)
             title: "Project Name",
             desc: "Brief description.",
             tags: ["RPG", "Main Menu"],
         },
         {
             image: "",
+            tweetUrl: "",
             title: "Project Name",
             desc: "Brief description.",
             tags: ["Simulator", "Shop UI"],
         },
         {
             image: "",
+            tweetUrl: "",
             title: "Project Name",
             desc: "Brief description.",
             tags: ["Tycoon", "HUD"],
         },
         {
             image: "",
+            tweetUrl: "",
             title: "Project Name",
             desc: "Brief description.",
             tags: ["Horror", "Inventory"],
         },
         {
             image: "",
+            tweetUrl: "",
             title: "Project Name",
             desc: "Brief description.",
             tags: ["PVP", "Lobby"],
         },
         {
             image: "",
+            tweetUrl: "",
             title: "Project Name",
             desc: "Brief description.",
             tags: ["Obby", "Menu"],
@@ -500,10 +522,16 @@ const CONFIG = {
     ],
 
 
-// ═══════════ PRICING ═══════════
+// ╔══════════════════════════════════════════════╗
+// ║           💰 PRICING                         ║
+// ║  Per-task Robux pricing                      ║
+// ╚══════════════════════════════════════════════╝
+
+    pricingTag: "Pricing",
+    pricingTitle: "Rates",
 
     pricing: {
-        description: "I charge per task. Price depends on complexity. You send a reference or describe what you need, I give you a quote.",
+        description: "I charge per task. Price depends on complexity. Send a reference or describe what you need, I'll give you a quote.",
 
         tiers: [
             {
@@ -527,169 +555,142 @@ const CONFIG = {
             "Source file included",
         ],
 
-        footNote: "Payment via Robux (gamepass). DM me for exact quote before starting.",
+        footNote: "Payment via Robux (gamepass). DM for exact quote.",
     },
 
 
-// ═══════════ REVIEWS ═══════════
+// ╔══════════════════════════════════════════════╗
+// ║           📬 CONTACT                         ║
+// ╚══════════════════════════════════════════════╝
 
-    reviews: [
-        {
-            stars: 5,
-            text: "Clean work. Sent a reference, got back exactly what I wanted. Fast and easy.",
-            name: "Alex",
-            role: "Game Developer",
-        },
-        {
-            stars: 5,
-            text: "Great designer, fair pricing. My game's UI looks professional now.",
-            name: "Builder",
-            role: "Studio Owner",
-        },
-        {
-            stars: 5,
-            text: "Smooth process. Reference in, clean UI out. Will definitely come back.",
-            name: "Kaan",
-            role: "Scripter",
-        },
+    contactTag: "Contact",
+    contactTitle: "Get in Touch",
+    contactDesc: "DM me on Discord or Twitter with your reference image. Check if commissions are open before messaging.",
+
+
+// ╔══════════════════════════════════════════════╗
+// ║           🧭 NAVIGATION                      ║
+// ║  Menu items in the navbar                    ║
+// ╚══════════════════════════════════════════════╝
+
+    navLinks: [
+        { text: "Home",     href: "#home" },
+        { text: "Services", href: "#services" },
+        { text: "Projects", href: "#projects" },
+        { text: "Pricing",  href: "#pricing" },
+        { text: "Contact",  href: "#contact" },
     ],
-
-
-// ═══════════ CONTACT ═══════════
-
-    contactDesc: "DM me on Discord or Twitter with your reference image or concept. Check if commissions are open before messaging.",
 
 };
 
 
 /*
-╔═══════════════════════════════════════╗
-║  ENGINE — don't edit below           ║
-╚═══════════════════════════════════════╝
+╔═══════════════════════════════════════════════════╗
+║  ⚙️ ENGINE — don't touch unless you know code    ║
+╚═══════════════════════════════════════════════════╝
 */
 
-let cO=CONFIG.commissionsOpen,fbOk=false,db=null;
+let cO=CONFIG.commissionsOpen,fbOk=false,dbb=null;
 
 function initFB(){
     if(CONFIG.firebase?.apiKey){
-        try{
-            firebase.initializeApp(CONFIG.firebase);db=firebase.database();fbOk=true;
-            db.ref("site/commissionsOpen").on("value",s=>{
-                const v=s.val();v!==null?upC(v):db.ref("site/commissionsOpen").set(CONFIG.commissionsOpen);
-            });
+        try{firebase.initializeApp(CONFIG.firebase);dbb=firebase.database();fbOk=true;
+        dbb.ref("site/commissionsOpen").on("value",s=>{const v=s.val();v!==null?upC(v):dbb.ref("site/commissionsOpen").set(CONFIG.commissionsOpen)});
         }catch(e){fbOk=false}
     }
 }
-
-function setC(o){
-    if(fbOk&&db){db.ref("site/commissionsOpen").set(o);sMsg("✓ Saved — visible to everyone","ok")}
-    else{upC(o);sMsg("Local only — add Firebase for live","warn")}
-}
+function setC(o){if(fbOk&&dbb){dbb.ref("site/commissionsOpen").set(o);sMsg("✓ Saved — everyone sees this","ok")}else{upC(o);sMsg("Local only — add Firebase","warn")}}
 function sMsg(t,c){const m=document.getElementById("aMsg");m.textContent=t;m.className="a-msg "+c;setTimeout(()=>{m.textContent="";m.className="a-msg"},3500)}
-
 function upC(o){
-    cO=o;
-    const b=document.getElementById("cB"),t=document.getElementById("cT"),st=document.getElementById("aSt"),tg=document.getElementById("cTog");
-    b.className=o?"cb o":"cb c";t.textContent=o?"OPEN":"CLOSED";
+    cO=o;const b=document.getElementById("cB"),t=document.getElementById("cT"),st=document.getElementById("aSt"),tg=document.getElementById("cTog");
+    if(b){b.className=o?"cb o":"cb c"}if(t){t.textContent=o?"OPEN":"CLOSED"}
     if(st){st.textContent=o?"Status: ✅ Open":"Status: ❌ Closed";st.style.color=o?"#f0f0f0":"#444"}
-    if(tg)tg.checked=o;
-    const d=document.querySelector(".h-dot");if(d)d.className=o?"h-dot on":"h-dot off";
+    if(tg)tg.checked=o;const d=document.querySelector(".h-dot");if(d)d.className=o?"h-dot on":"h-dot off";
 }
-
-function chkPw(){
-    const i=document.getElementById("pwI"),e=document.getElementById("pwE");
-    if(i.value===CONFIG.adminPassword){
-        document.getElementById("pwS").style.display="none";
-        document.getElementById("admC").classList.add("u");
-        const bg=document.getElementById("admBdg");
-        bg.textContent=fbOk?"● LIVE":"○ LOCAL";bg.className="a-badge "+(fbOk?"live":"local");
-        upC(cO);
-    }else{e.textContent="Wrong password";i.value="";setTimeout(()=>e.textContent="",2000)}
-}
-function clAdm(){
-    document.getElementById("adm").classList.remove("show");
-    document.getElementById("pwS").style.display="";
-    document.getElementById("admC").classList.remove("u");
-    document.getElementById("pwI").value="";document.getElementById("pwE").textContent="";
-}
+function chkPw(){const i=document.getElementById("pwI"),e=document.getElementById("pwE");if(i.value===CONFIG.adminPassword){document.getElementById("pwS").style.display="none";document.getElementById("admC").classList.add("u");const bg=document.getElementById("admBdg");bg.textContent=fbOk?"● LIVE — everyone sees":"○ LOCAL — only you";bg.className="a-badge "+(fbOk?"live":"local");upC(cO)}else{e.textContent="Wrong password";i.value="";setTimeout(()=>e.textContent="",2000)}}
+function clAdm(){document.getElementById("adm").classList.remove("show");document.getElementById("pwS").style.display="";document.getElementById("admC").classList.remove("u");document.getElementById("pwI").value="";document.getElementById("pwE").textContent=""}
 document.addEventListener("keydown",e=>{if(e.ctrlKey&&e.shiftKey&&e.key==="K"){e.preventDefault();document.getElementById("adm").classList.add("show");setTimeout(()=>document.getElementById("pwI").focus(),100)}});
 document.getElementById("cTog").addEventListener("change",function(){setC(this.checked)});
 document.getElementById("adm").addEventListener("click",function(e){if(e.target===this)clAdm()});
 
+function openLb(src,tw){const lb=document.getElementById("lb"),img=document.getElementById("lbImg"),lk=document.getElementById("lbSrc");img.src=src;lb.classList.add("show");document.body.style.overflow="hidden";if(tw){lk.href=tw;lk.style.display="flex"}else{lk.style.display="none"}}
+function closeLb(){document.getElementById("lb").classList.remove("show");document.body.style.overflow=""}
+
 function build(){
+    // Logo
     const le=document.getElementById("logoEl");let lh="";
-    if(CONFIG.logoIcon){
-        lh+=CONFIG.logoIcon.length<=4?`<div class="logo-ic"><span class="em">${CONFIG.logoIcon}</span></div>`:`<div class="logo-ic"><img src="${CONFIG.logoIcon}" alt=""></div>`;
-    }
-    const lp=CONFIG.logoText.split("|");
-    lh+=`<div class="logo-tx">${lp[0]}${lp[1]?`<span>${lp[1]}</span>`:""}</div>`;
-    le.innerHTML=lh;
+    if(CONFIG.logoIcon){lh+=CONFIG.logoIcon.length<=4?`<div class="logo-ic"><span class="em">${CONFIG.logoIcon}</span></div>`:`<div class="logo-ic"><img src="${CONFIG.logoIcon}" alt=""></div>`}
+    const lp=CONFIG.logoText.split("|");lh+=`<div class="logo-tx">${lp[0]}${lp[1]?`<span>${lp[1]}</span>`:""}</div>`;le.innerHTML=lh;
     document.title=CONFIG.name+" | "+CONFIG.role;
+
+    // Nav
+    const nl=document.getElementById("nl");
+    nl.innerHTML=CONFIG.navLinks.map(n=>`<li><a href="${n.href}" onclick="cm()">${n.text}</a></li>`).join("")+`<li><span class="cb o" id="cB"><span class="cd"></span><span id="cT">OPEN</span></span></li>`;
 
     // Avatar
     const ha=document.getElementById("hAv");
-    const avHTML=CONFIG.avatar?(CONFIG.avatar.length<=4?`<div class="em">${CONFIG.avatar}</div>`:`<img src="${CONFIG.avatar}" alt="">`):`<div class="em">?</div>`;
-    ha.innerHTML=avHTML+`<div class="h-dot ${cO?'on':'off'}"></div>`;
+    const av=CONFIG.avatar?(CONFIG.avatar.length<=4?`<div class="em">${CONFIG.avatar}</div>`:`<img src="${CONFIG.avatar}" alt="">`):`<div class="em">?</div>`;
+    ha.innerHTML=av+`<div class="h-dot ${cO?'on':'off'}"></div>`;
 
     document.getElementById("hNm").textContent=CONFIG.name;
     document.getElementById("hRl").textContent=CONFIG.role;
-
-    // Meta badges
-    document.getElementById("hMeta").innerHTML=CONFIG.meta.map(m=>`<div class="h-meta-item"><i class="${m.icon}"></i>${m.text}</div>`).join("");
-
+    document.getElementById("hMeta").innerHTML=CONFIG.meta.map(m=>`<div class="h-mi"><i class="${m.icon}"></i>${m.text}</div>`).join("");
     document.getElementById("hBi").textContent=CONFIG.bio;
-
-    // Socials
     document.getElementById("hLk").innerHTML=CONFIG.socials.map(s=>`<a href="${s.url}" target="_blank" class="h-lk gl" title="${s.platform}"><i class="${s.icon}"></i></a>`).join("");
 
-    // Services
+    // Buttons
+    document.getElementById("hBtns").innerHTML=CONFIG.buttons.map(b=>`<a href="${b.link}" class="btn ${b.style==='primary'?'bw':'bo'}"><i class="${b.icon}"></i> ${b.text}</a>`).join("");
+
+    // Section labels
+    document.getElementById("svcTag").textContent=CONFIG.servicesTag;
+    document.getElementById("svcTitle").textContent=CONFIG.servicesTitle;
     document.getElementById("svcNote").textContent=CONFIG.servicesNote;
-    document.getElementById("svcGrid").innerHTML=CONFIG.services.map(s=>`<div class="sv-c gl fi"><i class="${s.icon}"></i><h4>${s.title}</h4><p>${s.desc}</p></div>`).join("");
+    document.getElementById("pjTag").textContent=CONFIG.projectsTag;
+    document.getElementById("pjTitle").textContent=CONFIG.projectsTitle;
+    if(CONFIG.projectsNote)document.getElementById("pjNote").textContent=CONFIG.projectsNote;
+    document.getElementById("prTag").textContent=CONFIG.pricingTag;
+    document.getElementById("prTitle").textContent=CONFIG.pricingTitle;
+    document.getElementById("ctTag").textContent=CONFIG.contactTag;
+    document.getElementById("ctTitle").textContent=CONFIG.contactTitle;
+
+    // Services
+    document.getElementById("svcG").innerHTML=CONFIG.services.map(s=>`<div class="sv-c gl fi"><i class="${s.icon}"></i><h4>${s.title}</h4><p>${s.desc}</p></div>`).join("");
 
     // Projects
-    document.getElementById("pjGrid").innerHTML=CONFIG.projects.map(p=>{
-        let img;
+    document.getElementById("pjG").innerHTML=CONFIG.projects.map(p=>{
+        let img,hasImg=false;
         if(!p.image)img=`<div class="pj-ph">No preview</div>`;
         else if(p.image.length<=4)img=`<div class="pj-ph" style="font-size:28px">${p.image}</div>`;
-        else img=`<img src="${p.image}" alt="${p.title}">`;
-        return`<div class="pj-c gl fi"><div class="pj-img">${img}<div class="pj-ov"></div></div><div class="pj-b"><div class="pj-tags">${p.tags.map(t=>`<span class="pj-tag">${t}</span>`).join("")}</div><div class="pj-n">${p.title}</div><div class="pj-d">${p.desc}</div></div></div>`;
+        else{img=`<img src="${p.image}" alt="${p.title}">`;hasImg=true}
+        const twi=p.tweetUrl?`<div class="pj-twi"><i class="fab fa-x-twitter"></i></div>`:"";
+        const click=hasImg?`onclick="openLb('${p.image.replace(/'/g,"\\'")}','${(p.tweetUrl||"").replace(/'/g,"\\'")}')"`:p.tweetUrl?`onclick="window.open('${p.tweetUrl}','_blank')"`:"";
+        return`<div class="pj-c gl fi" ${click}><div class="pj-img">${img}${twi}<div class="pj-ov"></div></div><div class="pj-b"><div class="pj-tags">${p.tags.map(t=>`<span class="pj-tag">${t}</span>`).join("")}</div><div class="pj-n">${p.title}</div><div class="pj-d">${p.desc}</div></div></div>`;
     }).join("");
 
     // Pricing
     const pr=CONFIG.pricing;
-    document.getElementById("prDesc").textContent=pr.description;
-    document.getElementById("prCards").innerHTML=pr.tiers.map(t=>`<div class="pr-card gl"><div class="pr-card-label">${t.label}</div><div class="pr-card-price">R$ ${t.price}</div><div class="pr-card-note">${t.note}</div></div>`).join("");
-    document.getElementById("prInc").innerHTML=`<div class="pr-inc-title">What's Included</div><ul>${pr.includes.map(f=>`<li>${f}</li>`).join("")}</ul>`;
-    document.getElementById("prFoot").textContent=pr.footNote;
-
-    // Reviews
-    document.getElementById("rvGrid").innerHTML=CONFIG.reviews.map(r=>`<div class="rv-c gl fi"><div class="rv-s">${"★".repeat(r.stars)}</div><div class="rv-t">"${r.text}"</div><div class="rv-a"><div class="rv-p">${r.name[0]}</div><div><div class="rv-nm">${r.name}</div><div class="rv-rl">${r.role}</div></div></div></div>`).join("");
+    document.getElementById("prD").textContent=pr.description;
+    document.getElementById("prC").innerHTML=pr.tiers.map(t=>`<div class="pr-card gl"><div class="pr-cl">${t.label}</div><div class="pr-cp">R$ ${t.price}</div><div class="pr-cn">${t.note}</div></div>`).join("");
+    document.getElementById("prI").innerHTML=`<div class="pr-inc-t">What's Included</div><ul>${pr.includes.map(f=>`<li>${f}</li>`).join("")}</ul>`;
+    document.getElementById("prF").textContent=pr.footNote;
 
     // Contact
     document.getElementById("ctD").textContent=CONFIG.contactDesc;
     document.getElementById("ctL").innerHTML=CONFIG.socials.map(s=>`<a href="${s.url}" target="_blank" class="ct-l gl"><div class="ct-ic"><i class="${s.icon}"></i></div><div><div class="ct-pl">${s.platform}</div><div class="ct-vl">${s.label}</div></div></a>`).join("");
 
+    // Footer
     document.getElementById("ftT").textContent=CONFIG.footer;
     document.getElementById("ftS").innerHTML=CONFIG.socials.map(s=>`<a href="${s.url}" target="_blank"><i class="${s.icon}"></i></a>`).join("");
 
     upC(CONFIG.commissionsOpen);
 }
 
-window.addEventListener("scroll",()=>{
-    document.getElementById("nav").classList.toggle("s",scrollY>40);
-    document.querySelectorAll("section[id]").forEach(s=>{
-        const a=document.querySelector(`.nl a[href="#${s.id}"]`);
-        if(a){const t=s.offsetTop-130;a.classList.toggle("on",scrollY>=t&&scrollY<t+s.offsetHeight)}
-    });
-});
+window.addEventListener("scroll",()=>{document.getElementById("nav").classList.toggle("s",scrollY>40);document.querySelectorAll("section[id]").forEach(s=>{const a=document.querySelector(`.nl a[href="#${s.id}"]`);if(a){const t=s.offsetTop-130;a.classList.toggle("on",scrollY>=t&&scrollY<t+s.offsetHeight)}})});
 function cm(){document.getElementById("nl").classList.remove("open");document.getElementById("hm").classList.remove("on")}
 document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(a){const t=document.querySelector(a.getAttribute("href"));if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth"})}}});
-
 const obs=new IntersectionObserver(en=>{en.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add("v"),i*30)})},{threshold:.04});
 function obsA(){document.querySelectorAll(".fi").forEach(e=>obs.observe(e))}
-
 document.addEventListener("DOMContentLoaded",()=>{build();initFB();obsA()});
 </script>
-
 </body>
 </html>
