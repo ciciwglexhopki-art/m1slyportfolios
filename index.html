@@ -10,10 +10,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <style>
         :root{
-            --bg:#030303;--text:#f5f5f5;--t2:#888;--t3:#444;
+            --bg:#030303;--text:#f0f0f0;--t2:#888;--t3:#444;
             --b1:rgba(255,255,255,.05);--b2:rgba(255,255,255,.09);
             --gl:rgba(255,255,255,.025);--gl2:rgba(255,255,255,.05);
-            --ac:#fff;--ac2:#ccc;
         }
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
@@ -22,195 +21,196 @@
         ::-webkit-scrollbar{width:2px}
         ::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
 
-        .noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;
+        .noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.02;
             background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-        .glow{position:fixed;top:-40%;left:-30%;width:160%;height:160%;z-index:0;pointer-events:none;
-            background:radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.015),transparent 60%)}
 
         .gl{background:var(--gl);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--b1);transition:.3s}
         .gl:hover{background:var(--gl2);border-color:var(--b2)}
 
         /* NAV */
-        nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 0;transition:.4s}
-        nav.s{background:rgba(3,3,3,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1);padding:9px 0}
-        .ni{max-width:1000px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center}
+        nav{position:fixed;top:0;width:100%;z-index:1000;padding:14px 0;transition:.4s}
+        nav.s{background:rgba(3,3,3,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1);padding:8px 0}
+        .ni{max-width:960px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center}
         .logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-        .logo-ic{width:26px;height:26px;border-radius:7px;overflow:hidden;display:flex;align-items:center;justify-content:center}
-        .logo-ic img{width:100%;height:100%;object-fit:cover;border-radius:7px}
-        .logo-ic .em{font-size:16px}
-        .logo-tx{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--text);letter-spacing:-1px}
-        .logo-tx span{opacity:.4}
+        .logo-ic{width:24px;height:24px;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+        .logo-ic img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+        .logo-ic .em{font-size:15px}
+        .logo-tx{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--text);letter-spacing:-1px}
+        .logo-tx span{opacity:.35}
         .nl{display:flex;list-style:none;gap:1px;align-items:center}
-        .nl a{color:var(--t2);text-decoration:none;padding:6px 13px;border-radius:6px;font-size:11px;font-weight:500;transition:.3s;letter-spacing:.5px}
+        .nl a{color:var(--t2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:500;transition:.3s;letter-spacing:.3px}
         .nl a:hover,.nl a.on{color:var(--text)}
-        .cb{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:16px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-left:6px}
-        .cb.o{background:rgba(255,255,255,.04);color:var(--text);border:1px solid rgba(255,255,255,.08)}
-        .cb.c{background:rgba(255,255,255,.02);color:var(--t3);border:1px solid rgba(255,255,255,.04)}
+        .cb{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:14px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-left:4px}
+        .cb.o{background:rgba(255,255,255,.04);color:var(--text);border:1px solid rgba(255,255,255,.07)}
+        .cb.c{background:rgba(255,255,255,.02);color:var(--t3);border:1px solid rgba(255,255,255,.03)}
         .cd{width:4px;height:4px;border-radius:50%}
-        .cb.o .cd{background:#fff;box-shadow:0 0 6px rgba(255,255,255,.5);animation:dp 2s infinite}
+        .cb.o .cd{background:#fff;box-shadow:0 0 5px rgba(255,255,255,.4);animation:dp 2s infinite}
         .cb.c .cd{background:var(--t3)}
-        @keyframes dp{0%,100%{opacity:1}50%{opacity:.3}}
+        @keyframes dp{0%,100%{opacity:1}50%{opacity:.25}}
         .hm{display:none;flex-direction:column;gap:4px;cursor:pointer;z-index:1001;padding:4px}
-        .hm span{width:18px;height:1.5px;background:var(--text);border-radius:2px;transition:.3s}
+        .hm span{width:17px;height:1.5px;background:var(--text);border-radius:2px;transition:.3s}
         .hm.on span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
         .hm.on span:nth-child(2){opacity:0}
         .hm.on span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
 
         /* HERO */
-        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;padding:110px 28px 70px}
-        .hc{text-align:center;max-width:560px;position:relative;z-index:1}
-        .h-av{width:80px;height:80px;border-radius:50%;margin:0 auto 20px;overflow:hidden;border:1.5px solid var(--b2);position:relative}
+        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;padding:100px 28px 60px}
+        .hc{text-align:center;max-width:520px;position:relative;z-index:1}
+        .h-av{width:76px;height:76px;border-radius:50%;margin:0 auto 18px;overflow:hidden;border:1.5px solid var(--b2);position:relative}
         .h-av img{width:100%;height:100%;object-fit:cover}
-        .h-av .em{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#0a0a0a;font-size:36px}
-        .h-dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;border-radius:50%;border:2px solid var(--bg)}
-        .h-dot.on{background:#fff;box-shadow:0 0 8px rgba(255,255,255,.3)}
+        .h-av .em{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#0a0a0a;font-size:34px}
+        .h-dot{position:absolute;bottom:1px;right:1px;width:12px;height:12px;border-radius:50%;border:2px solid var(--bg)}
+        .h-dot.on{background:#fff;box-shadow:0 0 6px rgba(255,255,255,.25)}
         .h-dot.off{background:var(--t3)}
-        .h-name{font-family:'Syne',sans-serif;font-size:clamp(28px,5.5vw,48px);font-weight:800;letter-spacing:-2px;margin-bottom:6px;line-height:1.1}
-        .h-role{font-size:11px;color:var(--t3);letter-spacing:3px;text-transform:uppercase;font-weight:400;margin-bottom:20px}
-        .h-bio{font-size:13px;color:var(--t2);line-height:1.9;margin-bottom:28px;font-weight:300}
-        .h-links{display:flex;gap:6px;justify-content:center;margin-bottom:36px}
-        .h-lk{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--t2);text-decoration:none;transition:.3s}
-        .h-lk:hover{color:var(--text);transform:translateY(-2px);border-color:var(--b2)}
+        .h-name{font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:6px;line-height:1.1}
+        .h-role{font-size:10px;color:var(--t3);letter-spacing:3px;text-transform:uppercase;font-weight:400;margin-bottom:6px}
+        .h-meta{display:flex;gap:16px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+        .h-meta-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--t2);letter-spacing:.5px}
+        .h-meta-item i{font-size:9px;opacity:.4}
+        .h-bio{font-size:12px;color:var(--t2);line-height:1.9;margin-bottom:24px;font-weight:300}
+        .h-links{display:flex;gap:6px;justify-content:center;margin-bottom:28px}
+        .h-lk{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t2);text-decoration:none;transition:.3s}
+        .h-lk:hover{color:var(--text);transform:translateY(-1px);border-color:var(--b2)}
         .h-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-        .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-size:11px;font-weight:500;text-decoration:none;transition:.3s;cursor:pointer;border:none;font-family:'Inter',sans-serif;letter-spacing:.3px}
-        .b1{background:#fff;color:#000}
-        .b1:hover{opacity:.85;transform:translateY(-2px)}
-        .b2{background:transparent;color:var(--t2);border:1px solid var(--b1)}
-        .b2:hover{color:var(--text);border-color:var(--b2);transform:translateY(-2px)}
-        .stats{display:flex;gap:32px;justify-content:center;margin-top:44px;flex-wrap:wrap}
-        .sv{font-family:'Syne',sans-serif;font-size:22px;font-weight:700}
-        .sl{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:2px;margin-top:2px}
+        .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-size:11px;font-weight:500;text-decoration:none;transition:.3s;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+        .bw{background:#fff;color:#000}
+        .bw:hover{opacity:.85;transform:translateY(-1px)}
+        .bo{background:transparent;color:var(--t2);border:1px solid var(--b1)}
+        .bo:hover{color:var(--text);border-color:var(--b2);transform:translateY(-1px)}
 
         /* SECTIONS */
-        section{padding:72px 28px;position:relative;z-index:1}
-        .sh{text-align:center;margin-bottom:40px}
-        .stg{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:4px;color:var(--t3);margin-bottom:8px;display:block}
-        .stt{font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,28px);font-weight:700;letter-spacing:-1px;margin-bottom:6px}
-        .sdd{color:var(--t3);font-size:11px;max-width:340px;margin:0 auto;line-height:1.8;font-weight:300}
+        section{padding:64px 28px;position:relative;z-index:1}
+        .sh{text-align:center;margin-bottom:36px}
+        .stg{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:var(--t3);margin-bottom:7px;display:block}
+        .stt{font-family:'Syne',sans-serif;font-size:clamp(18px,3vw,26px);font-weight:700;letter-spacing:-.8px;margin-bottom:6px}
+        .sdd{color:var(--t3);font-size:11px;max-width:320px;margin:0 auto;line-height:1.8;font-weight:300}
         .dv{width:100%;height:1px;background:var(--b1);z-index:1;position:relative}
 
-        /* HOW I WORK */
-        .hw-g{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-        .hw-c{border-radius:12px;padding:24px 20px;text-align:center}
-        .hw-n{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--b2);margin-bottom:12px}
-        .hw-c h4{font-size:13px;font-weight:600;margin-bottom:6px;letter-spacing:-.3px}
-        .hw-c p{font-size:11px;color:var(--t3);line-height:1.7;font-weight:300}
+        /* SERVICES */
+        .sv-g{max-width:700px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .sv-c{border-radius:10px;padding:20px 18px;text-align:left}
+        .sv-c i{font-size:12px;color:var(--t3);margin-bottom:10px;display:block}
+        .sv-c h4{font-size:12px;font-weight:600;margin-bottom:5px;letter-spacing:-.2px}
+        .sv-c p{font-size:10px;color:var(--t3);line-height:1.7;font-weight:300}
 
         /* PROJECTS */
-        .pj-g{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-        .pj-c{border-radius:12px;overflow:hidden;transition:.4s}
-        .pj-c:hover{transform:translateY(-4px);border-color:var(--b2)}
-        .pj-img{position:relative;height:190px;overflow:hidden;background:#080808}
-        .pj-img img{width:100%;height:100%;object-fit:cover;transition:.5s}
+        .pj-g{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+        .pj-c{border-radius:10px;overflow:hidden;transition:.35s}
+        .pj-c:hover{transform:translateY(-3px);border-color:var(--b2)}
+        .pj-img{position:relative;height:180px;overflow:hidden;background:#060606}
+        .pj-img img{width:100%;height:100%;object-fit:cover;transition:.4s}
         .pj-c:hover .pj-img img{transform:scale(1.03)}
-        .pj-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#080808;color:var(--t3);font-size:11px;letter-spacing:2px;text-transform:uppercase}
-        .pj-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,3,3,.9),transparent 50%)}
-        .pj-b{padding:14px 18px}
-        .pj-tags{display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap}
-        .pj-tag{padding:2px 7px;border-radius:3px;font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;background:rgba(255,255,255,.04);color:var(--t2);border:1px solid var(--b1)}
-        .pj-n{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px;letter-spacing:-.3px}
+        .pj-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#060606;color:var(--t3);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+        .pj-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,3,3,.9),transparent 45%)}
+        .pj-b{padding:12px 16px}
+        .pj-tags{display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap}
+        .pj-tag{padding:2px 6px;border-radius:3px;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;background:rgba(255,255,255,.04);color:var(--t2);border:1px solid var(--b1)}
+        .pj-n{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;margin-bottom:2px;letter-spacing:-.3px}
         .pj-d{font-size:10px;color:var(--t3);line-height:1.6;font-weight:300}
 
         /* PRICING */
-        .pr-info{max-width:600px;margin:0 auto 32px;text-align:center}
-        .pr-info p{font-size:12px;color:var(--t2);line-height:1.8;font-weight:300}
-        .pr-box{max-width:420px;margin:0 auto;border-radius:14px;padding:32px 28px;text-align:center}
-        .pr-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:3px;margin-bottom:10px;font-weight:500}
-        .pr-price{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;margin-bottom:4px;letter-spacing:-2px}
-        .pr-unit{font-size:11px;color:var(--t3);margin-bottom:20px;font-weight:300}
-        .pr-list{list-style:none;display:flex;flex-direction:column;gap:8px;text-align:left}
-        .pr-list li{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t2);font-weight:300}
-        .pr-list li i{color:var(--text);font-size:8px;width:12px;opacity:.4}
-        .pr-note{margin-top:20px;padding-top:16px;border-top:1px solid var(--b1);font-size:10px;color:var(--t3);line-height:1.7;font-weight:300}
+        .pr-wrap{max-width:560px;margin:0 auto}
+        .pr-desc{font-size:12px;color:var(--t2);line-height:1.9;font-weight:300;text-align:center;margin-bottom:24px}
+        .pr-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+        .pr-card{border-radius:10px;padding:22px 18px;text-align:center}
+        .pr-card-label{font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-weight:500}
+        .pr-card-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+        .pr-card-note{font-size:9px;color:var(--t3);font-weight:300}
+        .pr-inc{border-radius:10px;padding:22px 20px}
+        .pr-inc-title{font-size:10px;font-weight:600;margin-bottom:12px;letter-spacing:.5px;color:var(--t2);text-transform:uppercase}
+        .pr-inc ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+        .pr-inc li{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t2);font-weight:300}
+        .pr-inc li::before{content:'';width:3px;height:3px;border-radius:50%;background:var(--t3);flex-shrink:0}
+        .pr-foot{margin-top:16px;text-align:center;font-size:10px;color:var(--t3);line-height:1.8;font-weight:300}
 
         /* REVIEWS */
-        .rv-g{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-        .rv-c{border-radius:12px;padding:20px;transition:.3s}
+        .rv-g{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+        .rv-c{border-radius:10px;padding:18px;transition:.3s}
         .rv-c:hover{transform:translateY(-2px)}
-        .rv-s{color:var(--text);font-size:9px;margin-bottom:12px;letter-spacing:2px;opacity:.3}
-        .rv-t{font-size:11px;color:var(--t2);line-height:1.8;margin-bottom:14px;font-weight:300;font-style:italic}
-        .rv-a{display:flex;align-items:center;gap:9px}
-        .rv-p{width:28px;height:28px;border-radius:7px;background:var(--b2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--bg)}
+        .rv-s{color:var(--text);font-size:8px;margin-bottom:10px;letter-spacing:2px;opacity:.2}
+        .rv-t{font-size:11px;color:var(--t2);line-height:1.8;margin-bottom:12px;font-weight:300;font-style:italic}
+        .rv-a{display:flex;align-items:center;gap:8px}
+        .rv-p{width:26px;height:26px;border-radius:6px;background:var(--b2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--bg)}
         .rv-nm{font-size:11px;font-weight:600}
-        .rv-rl{font-size:8px;color:var(--t3);letter-spacing:.5px}
+        .rv-rl{font-size:8px;color:var(--t3)}
 
         /* CONTACT */
-        .ct{max-width:420px;margin:0 auto;text-align:center}
-        .ct>p{color:var(--t2);font-size:12px;line-height:1.8;margin-bottom:24px;font-weight:300}
+        .ct{max-width:400px;margin:0 auto;text-align:center}
+        .ct>p{color:var(--t2);font-size:11px;line-height:1.8;margin-bottom:20px;font-weight:300}
         .ct-g{display:flex;flex-direction:column;gap:6px}
-        .ct-l{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;text-decoration:none;color:var(--text);transition:.3s}
-        .ct-l:hover{transform:translateX(4px)}
-        .ct-ic{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:13px;flex-shrink:0}
+        .ct-l{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:8px;text-decoration:none;color:var(--text);transition:.3s}
+        .ct-l:hover{transform:translateX(3px)}
+        .ct-ic{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:12px;flex-shrink:0}
         .ct-pl{font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px}
         .ct-vl{font-size:12px;font-weight:500}
 
         /* FOOTER */
-        footer{padding:20px 28px;border-top:1px solid var(--b1);position:relative;z-index:1}
-        .fw{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-        .ft{font-size:9px;color:var(--t3);font-weight:300;letter-spacing:.5px}
-        .fs{display:flex;gap:5px}
-        .fs a{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:11px;color:var(--t3);text-decoration:none;transition:.3s}
-        .fs a:hover{color:var(--text);transform:translateY(-1px)}
+        footer{padding:18px 28px;border-top:1px solid var(--b1);position:relative;z-index:1}
+        .fw{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+        .ft{font-size:9px;color:var(--t3);font-weight:300}
+        .fss{display:flex;gap:4px}
+        .fss a{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:5px;font-size:10px;color:var(--t3);text-decoration:none;transition:.3s}
+        .fss a:hover{color:var(--text);transform:translateY(-1px)}
 
         /* ADMIN */
-        .ao{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(20px);z-index:99999;align-items:center;justify-content:center}
+        .ao{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);z-index:99999;align-items:center;justify-content:center}
         .ao.show{display:flex}
-        .ap{background:#080808;border:1px solid var(--b1);border-radius:14px;padding:28px;max-width:300px;width:88%;text-align:center}
-        .ap h3{font-family:'Syne',sans-serif;font-size:15px;margin-bottom:3px;letter-spacing:-.5px}
-        .ap>p{color:var(--t3);font-size:9px;margin-bottom:16px;letter-spacing:.5px}
-        .pw-w input{width:100%;padding:9px 12px;background:var(--gl);border:1px solid var(--b1);border-radius:7px;color:var(--text);font-family:'Inter',sans-serif;font-size:11px;outline:none;text-align:center;letter-spacing:3px}
+        .ap{background:#060606;border:1px solid var(--b1);border-radius:12px;padding:26px;max-width:280px;width:88%;text-align:center}
+        .ap h3{font-family:'Syne',sans-serif;font-size:14px;margin-bottom:2px}
+        .ap>p{color:var(--t3);font-size:9px;margin-bottom:14px}
+        .pw-w input{width:100%;padding:8px 12px;background:var(--gl);border:1px solid var(--b1);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:11px;outline:none;text-align:center;letter-spacing:3px}
         .pw-w input:focus{border-color:var(--b2)}
-        .pw-e{font-size:9px;color:#666;margin-top:5px;min-height:12px}
-        .pw-b{padding:7px 18px;background:#fff;color:#000;border:none;border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;margin-top:8px;transition:.3s}
+        .pw-e{font-size:8px;color:#555;margin-top:4px;min-height:11px}
+        .pw-b{padding:7px 16px;background:#fff;color:#000;border:none;border-radius:5px;cursor:pointer;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;margin-top:7px;transition:.3s}
         .pw-b:hover{opacity:.8}
         .adm-c{display:none}
         .adm-c.u{display:block}
-        .tr{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:12px}
-        .tl{font-size:10px;font-weight:500;color:var(--t2)}
-        .tw{position:relative;width:40px;height:20px;cursor:pointer;display:inline-block}
+        .tr{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+        .tl{font-size:10px;color:var(--t2)}
+        .tw{position:relative;width:38px;height:18px;cursor:pointer;display:inline-block}
         .tw input{display:none}
-        .ts{position:absolute;inset:0;background:rgba(255,255,255,.06);border-radius:20px;transition:.3s;border:1px solid var(--b1)}
-        .ts::before{content:'';position:absolute;width:12px;height:12px;border-radius:50%;background:var(--t3);top:3px;left:3px;transition:.3s}
-        .tw input:checked+.ts{background:rgba(255,255,255,.1);border-color:var(--b2)}
-        .tw input:checked+.ts::before{transform:translateX(20px);background:#fff;box-shadow:0 0 6px rgba(255,255,255,.3)}
-        .a-st{font-size:11px;font-weight:600;margin-bottom:6px}
-        .a-msg{font-size:9px;min-height:12px;margin-bottom:10px;padding:5px;border-radius:5px}
-        .a-msg.ok{background:rgba(255,255,255,.04);color:var(--text)}
-        .a-msg.warn{background:rgba(255,255,255,.03);color:var(--t2)}
-        .a-badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:7px;font-weight:700;letter-spacing:1.5px;margin-bottom:12px;text-transform:uppercase}
-        .a-badge.live{background:rgba(255,255,255,.06);color:var(--text)}
-        .a-badge.local{background:rgba(255,255,255,.03);color:var(--t3)}
-        .a-cl{padding:6px 16px;background:var(--gl);border:1px solid var(--b1);border-radius:6px;color:var(--t2);cursor:pointer;font-size:9px;transition:.3s;font-family:'Inter',sans-serif}
-        .a-cl:hover{color:var(--text);border-color:var(--b2)}
+        .ts{position:absolute;inset:0;background:rgba(255,255,255,.05);border-radius:18px;transition:.3s;border:1px solid var(--b1)}
+        .ts::before{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:var(--t3);top:3px;left:3px;transition:.3s}
+        .tw input:checked+.ts{background:rgba(255,255,255,.08)}
+        .tw input:checked+.ts::before{transform:translateX(20px);background:#fff;box-shadow:0 0 4px rgba(255,255,255,.2)}
+        .a-st{font-size:10px;font-weight:600;margin-bottom:5px}
+        .a-msg{font-size:8px;min-height:11px;margin-bottom:8px;padding:4px;border-radius:4px}
+        .a-msg.ok{background:rgba(255,255,255,.03);color:var(--text)}
+        .a-msg.warn{background:rgba(255,255,255,.02);color:var(--t2)}
+        .a-badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:7px;font-weight:700;letter-spacing:1.5px;margin-bottom:10px;text-transform:uppercase}
+        .a-badge.live{background:rgba(255,255,255,.05);color:var(--text)}
+        .a-badge.local{background:rgba(255,255,255,.02);color:var(--t3)}
+        .a-cl{padding:5px 14px;background:var(--gl);border:1px solid var(--b1);border-radius:5px;color:var(--t2);cursor:pointer;font-size:9px;font-family:'Inter',sans-serif;transition:.3s}
+        .a-cl:hover{color:var(--text)}
 
-        /* FADE */
-        .fi{opacity:0;transform:translateY(18px);transition:.55s cubic-bezier(.16,1,.3,1)}
+        .fi{opacity:0;transform:translateY(16px);transition:.5s cubic-bezier(.16,1,.3,1)}
         .fi.v{opacity:1;transform:translateY(0)}
 
         @media(max-width:768px){
             .nl{display:none;position:fixed;inset:0;background:rgba(3,3,3,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:8px}
             .nl.open{display:flex}.hm{display:flex}
-            section{padding:48px 16px}.hero{padding:80px 16px 40px}
-            .pj-g,.rv-g{grid-template-columns:1fr}
-            .hw-g{grid-template-columns:1fr}
+            section{padding:44px 16px}.hero{padding:76px 16px 36px}
+            .pj-g{grid-template-columns:1fr}
+            .rv-g{grid-template-columns:1fr}
+            .sv-g{grid-template-columns:1fr}
+            .pr-cards{grid-template-columns:1fr}
             .fw{flex-direction:column;text-align:center}
-            .stats{gap:18px}.ni{padding:0 16px}
+            .ni{padding:0 16px}
         }
     </style>
 </head>
 <body>
 
 <div class="noise"></div>
-<div class="glow"></div>
 
 <!-- ADMIN -->
 <div class="ao" id="adm">
     <div class="ap">
         <h3>Admin</h3>
-        <p>Enter password to continue</p>
+        <p>Enter password</p>
         <div id="pwS">
             <div class="pw-w">
-                <input type="password" id="pwI" placeholder="••••••" onkeydown="if(event.key==='Enter')chkPw()">
+                <input type="password" id="pwI" placeholder="••••" onkeydown="if(event.key==='Enter')chkPw()">
                 <div class="pw-e" id="pwE"></div>
             </div>
             <button class="pw-b" onclick="chkPw()">Unlock</button>
@@ -229,7 +229,6 @@
     </div>
 </div>
 
-<!-- NAV -->
 <nav id="nav">
     <div class="ni">
         <a href="#home" class="logo" id="logoEl"></a>
@@ -238,7 +237,7 @@
         </div>
         <ul class="nl" id="nl">
             <li><a href="#home" onclick="cm()">Home</a></li>
-            <li><a href="#work" onclick="cm()">Process</a></li>
+            <li><a href="#services" onclick="cm()">Services</a></li>
             <li><a href="#projects" onclick="cm()">Projects</a></li>
             <li><a href="#pricing" onclick="cm()">Pricing</a></li>
             <li><a href="#reviews" onclick="cm()">Reviews</a></li>
@@ -248,61 +247,59 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero" id="home">
     <div class="hc fi">
         <div class="h-av" id="hAv"></div>
         <div class="h-name" id="hNm"></div>
         <div class="h-role" id="hRl"></div>
+        <div class="h-meta" id="hMeta"></div>
         <div class="h-bio" id="hBi"></div>
         <div class="h-links" id="hLk"></div>
         <div class="h-btns">
-            <a href="#contact" class="btn b1"><i class="fas fa-arrow-right"></i> Commission Me</a>
-            <a href="#projects" class="btn b2"><i class="fas fa-eye"></i> View Work</a>
+            <a href="#contact" class="btn bw"><i class="fas fa-arrow-right"></i> Commission Me</a>
+            <a href="#projects" class="btn bo"><i class="fas fa-eye"></i> View Work</a>
         </div>
-        <div class="stats" id="hSt"></div>
     </div>
 </section>
 
 <div class="dv"></div>
 
-<!-- HOW I WORK -->
-<section id="work">
+<section id="services">
     <div class="sh fi">
-        <span class="stg">Process</span>
-        <h2 class="stt">How I Work</h2>
-        <p class="sdd">Reference-based workflow. Clean results.</p>
+        <span class="stg">Services</span>
+        <h2 class="stt">What I Do</h2>
+        <p class="sdd" id="svcNote"></p>
     </div>
-    <div class="hw-g" id="hwGrid"></div>
+    <div class="sv-g" id="svcGrid"></div>
 </section>
 
 <div class="dv"></div>
 
-<!-- PROJECTS -->
 <section id="projects">
     <div class="sh fi">
         <span class="stg">Portfolio</span>
         <h2 class="stt">Recent Work</h2>
-        <p class="sdd">UI frames I've designed for clients</p>
     </div>
     <div class="pj-g" id="pjGrid"></div>
 </section>
 
 <div class="dv"></div>
 
-<!-- PRICING -->
 <section id="pricing">
     <div class="sh fi">
         <span class="stg">Pricing</span>
-        <h2 class="stt">Per Frame</h2>
+        <h2 class="stt">Rates</h2>
     </div>
-    <div class="pr-info fi" id="prInfo"></div>
-    <div class="pr-box gl fi" id="prBox"></div>
+    <div class="pr-wrap fi">
+        <div class="pr-desc" id="prDesc"></div>
+        <div class="pr-cards" id="prCards"></div>
+        <div class="pr-inc gl" id="prInc"></div>
+        <div class="pr-foot" id="prFoot"></div>
+    </div>
 </section>
 
 <div class="dv"></div>
 
-<!-- REVIEWS -->
 <section id="reviews">
     <div class="sh fi">
         <span class="stg">Feedback</span>
@@ -313,7 +310,6 @@
 
 <div class="dv"></div>
 
-<!-- CONTACT -->
 <section id="contact">
     <div class="sh fi">
         <span class="stg">Contact</span>
@@ -328,7 +324,7 @@
 <footer>
     <div class="fw">
         <div class="ft" id="ftT"></div>
-        <div class="fs" id="ftS"></div>
+        <div class="fss" id="ftS"></div>
     </div>
 </footer>
 
@@ -336,14 +332,13 @@
 /*
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
-║   ███████ ███████ ████████ ██    ██ ██████                   ║
-║   ██      ██         ██    ██    ██ ██   ██                  ║
-║   ███████ █████      ██    ██    ██ ██████                   ║
-║        ██ ██         ██    ██    ██ ██                        ║
-║   ███████ ███████    ██     ██████  ██                        ║
+║    ██████  ██████  ███    ██ ███████ ██  ██████               ║
+║   ██      ██    ██ ████   ██ ██      ██ ██                    ║
+║   ██      ██    ██ ██ ██  ██ █████   ██ ██   ███              ║
+║   ██      ██    ██ ██  ██ ██ ██      ██ ██    ██              ║
+║    ██████  ██████  ██   ████ ██      ██  ██████               ║
 ║                                                              ║
-║   Edit everything below to make this site yours.             ║
-║   Save → Push to GitHub → Done.                             ║
+║   Edit below → Save → Push to GitHub → Site updates.         ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 */
@@ -353,47 +348,41 @@ const CONFIG = {
 
 // ═══════════ BRANDING ═══════════
 
+    // Your display name
     name: "emsly",
 
-    // Logo in navbar. Use | to split: left=white, right=dim
-    // "ems|ly" → "ems" bright + "ly" faded
+    // Navbar logo text — use | to split: left=bright, right=dim
     logoText: "ems|ly",
 
-    // Logo icon: emoji "🎨" or image file "logo.png" or "" for none
+    // Logo icon: emoji "🎨" or image "logo.png" or "" for none
     logoIcon: "",
 
-    role: "Roblox UI Designer",
+    // Role shown under name
+    role: "UI Designer",
 
+    // Footer text
     footer: "© 2024 emsly",
 
 
-// ═══════════ ADMIN PASSWORD ═══════════
-// Press Ctrl+Shift+K on your site to open admin panel
-// Only you know this password
+// ═══════════ ADMIN ═══════════
 
+    // Password for admin panel (Ctrl+Shift+K)
     adminPassword: "emsly123",
 
 
 // ═══════════ COMMISSION STATUS ═══════════
-// Fallback if Firebase not set up
-// true = Open, false = Closed
-
     commissionsOpen: true,
 
 
-// ═══════════ FIREBASE (real-time, everyone sees) ═══════════
+// ═══════════ FIREBASE ═══════════
 //
-// WITHOUT Firebase: edit commissionsOpen above → push to GitHub
-// WITH Firebase: toggle from admin panel → everyone sees INSTANTLY
+// With Firebase → toggle from admin → EVERYONE sees instantly
+// Without → change commissionsOpen above → push to GitHub
 //
-// Setup (free, 5 min, one time):
-// 1. https://console.firebase.google.com → Add project
-// 2. Build → Realtime Database → Create Database → Test Mode
-// 3. ⚙️ Project settings → Your apps → </> web
-// 4. Copy config values below
-// 5. Push to GitHub — done!
-//
-// Leave apiKey "" to skip Firebase
+// Setup: https://console.firebase.google.com
+// 1. Add project → 2. Realtime Database → Test Mode
+// 3. Project settings → Your apps → </> → Copy config
+// Leave apiKey "" to skip
 
     firebase: {
         apiKey: "",
@@ -406,17 +395,19 @@ const CONFIG = {
     },
 
 
-// ═══════════ BIO / HERO ═══════════
+// ═══════════ HERO / BIO ═══════════
 
     // Profile pic: emoji "🎨" or file "pfp.png" or URL
     avatar: "🎨",
 
-    bio: "I design clean UI frames for Roblox games. I work with references — you send me what you want, I make it look good. Per-frame pricing, no surprises.",
+    // Bio text
+    bio: "I design clean, clear, and in-game friendly user interfaces for Roblox games. I focus on layout, readability, and usability.",
 
-    stats: [
-        { value: "50+", label: "Frames" },
-        { value: "30+", label: "Clients" },
-        { value: "2+",  label: "Years" },
+    // Info badges shown under role
+    meta: [
+        { icon: "fas fa-coins", text: "Robux" },
+        { icon: "fas fa-tasks", text: "Per Task" },
+        { icon: "fas fa-image", text: "Reference Based" },
     ],
 
 
@@ -438,27 +429,36 @@ const CONFIG = {
     ],
 
 
-// ═══════════ HOW I WORK (process steps) ═══════════
+// ═══════════ SERVICES ═══════════
 
-    process: [
+    servicesNote: "Reference-based UI requests are preferred.",
+
+    services: [
         {
-            title: "Send Reference",
-            desc: "You DM me with a reference image or description of what you need.",
+            icon: "fas fa-palette",
+            title: "All Types of UI",
+            desc: "Any kind of UI design for Roblox games — menus, HUDs, shops, inventories, and more.",
         },
         {
-            title: "I Design",
-            desc: "I create the UI frame based on your reference. Clean, modern, matching your style.",
+            icon: "fas fa-gamepad",
+            title: "Game-Concept Based",
+            desc: "Custom UI tailored to your game's theme, style, and target audience.",
         },
         {
-            title: "You Pay",
-            desc: "Happy with the result? Pay per frame in Robux. Simple as that.",
+            icon: "fas fa-cube",
+            title: "Studio Compatible",
+            desc: "Interfaces designed to work seamlessly inside Roblox Studio.",
+        },
+        {
+            icon: "fas fa-rotate",
+            title: "Revisions Included",
+            desc: "Not happy with something? I'll revise until you're satisfied with the result.",
         },
     ],
 
 
 // ═══════════ PROJECTS ═══════════
-// image: emoji or file path or URL
-// To add real images: put files in your repo, use filename like "project1.png"
+// image: "" (placeholder) or emoji "🎮" or file "project1.png" or URL
 
     projects: [
         {
@@ -471,7 +471,7 @@ const CONFIG = {
             image: "",
             title: "Project Name",
             desc: "Brief description.",
-            tags: ["Simulator", "Shop"],
+            tags: ["Simulator", "Shop UI"],
         },
         {
             image: "",
@@ -503,17 +503,31 @@ const CONFIG = {
 // ═══════════ PRICING ═══════════
 
     pricing: {
-        pricePerFrame: "150",         // Robux per frame
-        description: "I charge per frame. One frame = one UI screen or panel. You send a reference, I design it. Price may vary depending on complexity.",
+        description: "I charge per task. Price depends on complexity. You send a reference or describe what you need, I give you a quote.",
+
+        tiers: [
+            {
+                label: "General Work",
+                price: "2,000 – 5,000",
+                note: "Depending on complexity",
+            },
+            {
+                label: "Simple Tasks",
+                price: "500 – 1,000",
+                note: "Single frame, small edits",
+            },
+        ],
+
         includes: [
             "Clean, modern UI design",
-            "Based on your reference",
+            "Based on your reference or concept",
+            "Roblox Studio compatible",
+            "Revisions if needed",
             "High-res export",
-            "Revisions until you're happy",
-            "Fast delivery (1-3 days)",
             "Source file included",
         ],
-        note: "Complex frames (lots of detail, custom icons) may cost more. DM me for a quote. Payment in Robux via gamepass.",
+
+        footNote: "Payment via Robux (gamepass). DM me for exact quote before starting.",
     },
 
 
@@ -528,13 +542,13 @@ const CONFIG = {
         },
         {
             stars: 5,
-            text: "Great designer, fair pricing. My game's UI looks way more professional now.",
+            text: "Great designer, fair pricing. My game's UI looks professional now.",
             name: "Builder",
             role: "Studio Owner",
         },
         {
             stars: 5,
-            text: "Super smooth process. Reference in, clean UI out. Will come back for more.",
+            text: "Smooth process. Reference in, clean UI out. Will definitely come back.",
             name: "Kaan",
             role: "Scripter",
         },
@@ -543,7 +557,7 @@ const CONFIG = {
 
 // ═══════════ CONTACT ═══════════
 
-    contactDesc: "DM me on Discord or Twitter with your reference image. Check if commissions are open before messaging.",
+    contactDesc: "DM me on Discord or Twitter with your reference image or concept. Check if commissions are open before messaging.",
 
 };
 
@@ -554,47 +568,32 @@ const CONFIG = {
 ╚═══════════════════════════════════════╝
 */
 
-let cO=CONFIG.commissionsOpen,fbReady=false,db=null;
+let cO=CONFIG.commissionsOpen,fbOk=false,db=null;
 
 function initFB(){
-    if(CONFIG.firebase&&CONFIG.firebase.apiKey&&CONFIG.firebase.apiKey!==""){
+    if(CONFIG.firebase?.apiKey){
         try{
-            firebase.initializeApp(CONFIG.firebase);
-            db=firebase.database();fbReady=true;
+            firebase.initializeApp(CONFIG.firebase);db=firebase.database();fbOk=true;
             db.ref("site/commissionsOpen").on("value",s=>{
-                const v=s.val();
-                if(v!==null)upC(v);
-                else db.ref("site/commissionsOpen").set(CONFIG.commissionsOpen);
+                const v=s.val();v!==null?upC(v):db.ref("site/commissionsOpen").set(CONFIG.commissionsOpen);
             });
-        }catch(e){fbReady=false}
+        }catch(e){fbOk=false}
     }
 }
 
 function setC(o){
-    if(fbReady&&db){
-        db.ref("site/commissionsOpen").set(o);
-        sMsg("✓ Saved — everyone can see this now","ok");
-    }else{
-        upC(o);
-        sMsg("Local only — set up Firebase for live toggle","warn");
-    }
+    if(fbOk&&db){db.ref("site/commissionsOpen").set(o);sMsg("✓ Saved — visible to everyone","ok")}
+    else{upC(o);sMsg("Local only — add Firebase for live","warn")}
 }
-
-function sMsg(t,c){
-    const m=document.getElementById("aMsg");
-    m.textContent=t;m.className="a-msg "+c;
-    setTimeout(()=>{m.textContent="";m.className="a-msg"},4000);
-}
+function sMsg(t,c){const m=document.getElementById("aMsg");m.textContent=t;m.className="a-msg "+c;setTimeout(()=>{m.textContent="";m.className="a-msg"},3500)}
 
 function upC(o){
     cO=o;
-    const b=document.getElementById("cB"),t=document.getElementById("cT"),
-          st=document.getElementById("aSt"),tg=document.getElementById("cTog");
+    const b=document.getElementById("cB"),t=document.getElementById("cT"),st=document.getElementById("aSt"),tg=document.getElementById("cTog");
     b.className=o?"cb o":"cb c";t.textContent=o?"OPEN":"CLOSED";
-    if(st){st.textContent=o?"Status: ✅ Open":"Status: ❌ Closed";st.style.color=o?"#f5f5f5":"#444"}
+    if(st){st.textContent=o?"Status: ✅ Open":"Status: ❌ Closed";st.style.color=o?"#f0f0f0":"#444"}
     if(tg)tg.checked=o;
-    const d=document.querySelector(".h-dot");
-    if(d)d.className=o?"h-dot on":"h-dot off";
+    const d=document.querySelector(".h-dot");if(d)d.className=o?"h-dot on":"h-dot off";
 }
 
 function chkPw(){
@@ -603,116 +602,90 @@ function chkPw(){
         document.getElementById("pwS").style.display="none";
         document.getElementById("admC").classList.add("u");
         const bg=document.getElementById("admBdg");
-        bg.textContent=fbReady?"● LIVE — everyone sees changes":"○ LOCAL — only you see changes";
-        bg.className="a-badge "+(fbReady?"live":"local");
+        bg.textContent=fbOk?"● LIVE":"○ LOCAL";bg.className="a-badge "+(fbOk?"live":"local");
         upC(cO);
     }else{e.textContent="Wrong password";i.value="";setTimeout(()=>e.textContent="",2000)}
 }
-
 function clAdm(){
     document.getElementById("adm").classList.remove("show");
     document.getElementById("pwS").style.display="";
     document.getElementById("admC").classList.remove("u");
-    document.getElementById("pwI").value="";
-    document.getElementById("pwE").textContent="";
+    document.getElementById("pwI").value="";document.getElementById("pwE").textContent="";
 }
-
 document.addEventListener("keydown",e=>{if(e.ctrlKey&&e.shiftKey&&e.key==="K"){e.preventDefault();document.getElementById("adm").classList.add("show");setTimeout(()=>document.getElementById("pwI").focus(),100)}});
 document.getElementById("cTog").addEventListener("change",function(){setC(this.checked)});
 document.getElementById("adm").addEventListener("click",function(e){if(e.target===this)clAdm()});
 
 function build(){
-    // Logo
     const le=document.getElementById("logoEl");let lh="";
     if(CONFIG.logoIcon){
-        if(CONFIG.logoIcon.length<=4)lh+=`<div class="logo-ic"><span class="em">${CONFIG.logoIcon}</span></div>`;
-        else lh+=`<div class="logo-ic"><img src="${CONFIG.logoIcon}" alt=""></div>`;
+        lh+=CONFIG.logoIcon.length<=4?`<div class="logo-ic"><span class="em">${CONFIG.logoIcon}</span></div>`:`<div class="logo-ic"><img src="${CONFIG.logoIcon}" alt=""></div>`;
     }
     const lp=CONFIG.logoText.split("|");
     lh+=`<div class="logo-tx">${lp[0]}${lp[1]?`<span>${lp[1]}</span>`:""}</div>`;
     le.innerHTML=lh;
-
     document.title=CONFIG.name+" | "+CONFIG.role;
 
     // Avatar
     const ha=document.getElementById("hAv");
-    if(CONFIG.avatar&&CONFIG.avatar.length<=4)
-        ha.innerHTML=`<div class="em">${CONFIG.avatar}</div><div class="h-dot ${cO?'on':'off'}"></div>`;
-    else if(CONFIG.avatar)
-        ha.innerHTML=`<img src="${CONFIG.avatar}" alt=""><div class="h-dot ${cO?'on':'off'}"></div>`;
-    else
-        ha.innerHTML=`<div class="em">?</div><div class="h-dot ${cO?'on':'off'}"></div>`;
+    const avHTML=CONFIG.avatar?(CONFIG.avatar.length<=4?`<div class="em">${CONFIG.avatar}</div>`:`<img src="${CONFIG.avatar}" alt="">`):`<div class="em">?</div>`;
+    ha.innerHTML=avHTML+`<div class="h-dot ${cO?'on':'off'}"></div>`;
 
     document.getElementById("hNm").textContent=CONFIG.name;
     document.getElementById("hRl").textContent=CONFIG.role;
+
+    // Meta badges
+    document.getElementById("hMeta").innerHTML=CONFIG.meta.map(m=>`<div class="h-meta-item"><i class="${m.icon}"></i>${m.text}</div>`).join("");
+
     document.getElementById("hBi").textContent=CONFIG.bio;
 
     // Socials
-    document.getElementById("hLk").innerHTML=CONFIG.socials.map(s=>
-        `<a href="${s.url}" target="_blank" class="h-lk gl" title="${s.platform}"><i class="${s.icon}"></i></a>`
-    ).join("");
+    document.getElementById("hLk").innerHTML=CONFIG.socials.map(s=>`<a href="${s.url}" target="_blank" class="h-lk gl" title="${s.platform}"><i class="${s.icon}"></i></a>`).join("");
 
-    // Stats
-    document.getElementById("hSt").innerHTML=CONFIG.stats.map(s=>
-        `<div><div class="sv">${s.value}</div><div class="sl">${s.label}</div></div>`
-    ).join("");
-
-    // Process
-    document.getElementById("hwGrid").innerHTML=CONFIG.process.map((p,i)=>
-        `<div class="hw-c gl fi"><div class="hw-n">0${i+1}</div><h4>${p.title}</h4><p>${p.desc}</p></div>`
-    ).join("");
+    // Services
+    document.getElementById("svcNote").textContent=CONFIG.servicesNote;
+    document.getElementById("svcGrid").innerHTML=CONFIG.services.map(s=>`<div class="sv-c gl fi"><i class="${s.icon}"></i><h4>${s.title}</h4><p>${s.desc}</p></div>`).join("");
 
     // Projects
     document.getElementById("pjGrid").innerHTML=CONFIG.projects.map(p=>{
         let img;
-        if(!p.image||p.image==="")img=`<div class="pj-ph">No preview</div>`;
-        else if(p.image.length<=4)img=`<div class="pj-ph" style="font-size:32px">${p.image}</div>`;
+        if(!p.image)img=`<div class="pj-ph">No preview</div>`;
+        else if(p.image.length<=4)img=`<div class="pj-ph" style="font-size:28px">${p.image}</div>`;
         else img=`<img src="${p.image}" alt="${p.title}">`;
         return`<div class="pj-c gl fi"><div class="pj-img">${img}<div class="pj-ov"></div></div><div class="pj-b"><div class="pj-tags">${p.tags.map(t=>`<span class="pj-tag">${t}</span>`).join("")}</div><div class="pj-n">${p.title}</div><div class="pj-d">${p.desc}</div></div></div>`;
     }).join("");
 
     // Pricing
     const pr=CONFIG.pricing;
-    document.getElementById("prInfo").innerHTML=`<p>${pr.description}</p>`;
-    document.getElementById("prBox").innerHTML=`
-        <div class="pr-label">Per Frame</div>
-        <div class="pr-price">R$ ${pr.pricePerFrame}</div>
-        <div class="pr-unit">Robux per frame</div>
-        <ul class="pr-list">${pr.includes.map(f=>`<li><i class="fas fa-check"></i>${f}</li>`).join("")}</ul>
-        <div class="pr-note">${pr.note}</div>
-    `;
+    document.getElementById("prDesc").textContent=pr.description;
+    document.getElementById("prCards").innerHTML=pr.tiers.map(t=>`<div class="pr-card gl"><div class="pr-card-label">${t.label}</div><div class="pr-card-price">R$ ${t.price}</div><div class="pr-card-note">${t.note}</div></div>`).join("");
+    document.getElementById("prInc").innerHTML=`<div class="pr-inc-title">What's Included</div><ul>${pr.includes.map(f=>`<li>${f}</li>`).join("")}</ul>`;
+    document.getElementById("prFoot").textContent=pr.footNote;
 
     // Reviews
-    document.getElementById("rvGrid").innerHTML=CONFIG.reviews.map(r=>
-        `<div class="rv-c gl fi"><div class="rv-s">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div><div class="rv-t">"${r.text}"</div><div class="rv-a"><div class="rv-p">${r.name[0]}</div><div><div class="rv-nm">${r.name}</div><div class="rv-rl">${r.role}</div></div></div></div>`
-    ).join("");
+    document.getElementById("rvGrid").innerHTML=CONFIG.reviews.map(r=>`<div class="rv-c gl fi"><div class="rv-s">${"★".repeat(r.stars)}</div><div class="rv-t">"${r.text}"</div><div class="rv-a"><div class="rv-p">${r.name[0]}</div><div><div class="rv-nm">${r.name}</div><div class="rv-rl">${r.role}</div></div></div></div>`).join("");
 
     // Contact
     document.getElementById("ctD").textContent=CONFIG.contactDesc;
-    document.getElementById("ctL").innerHTML=CONFIG.socials.map(s=>
-        `<a href="${s.url}" target="_blank" class="ct-l gl"><div class="ct-ic"><i class="${s.icon}"></i></div><div><div class="ct-pl">${s.platform}</div><div class="ct-vl">${s.label}</div></div></a>`
-    ).join("");
+    document.getElementById("ctL").innerHTML=CONFIG.socials.map(s=>`<a href="${s.url}" target="_blank" class="ct-l gl"><div class="ct-ic"><i class="${s.icon}"></i></div><div><div class="ct-pl">${s.platform}</div><div class="ct-vl">${s.label}</div></div></a>`).join("");
 
     document.getElementById("ftT").textContent=CONFIG.footer;
-    document.getElementById("ftS").innerHTML=CONFIG.socials.map(s=>
-        `<a href="${s.url}" target="_blank" title="${s.platform}"><i class="${s.icon}"></i></a>`
-    ).join("");
+    document.getElementById("ftS").innerHTML=CONFIG.socials.map(s=>`<a href="${s.url}" target="_blank"><i class="${s.icon}"></i></a>`).join("");
 
     upC(CONFIG.commissionsOpen);
 }
 
-// Nav
 window.addEventListener("scroll",()=>{
     document.getElementById("nav").classList.toggle("s",scrollY>40);
     document.querySelectorAll("section[id]").forEach(s=>{
         const a=document.querySelector(`.nl a[href="#${s.id}"]`);
-        if(a){const t=s.offsetTop-140;a.classList.toggle("on",scrollY>=t&&scrollY<t+s.offsetHeight)}
+        if(a){const t=s.offsetTop-130;a.classList.toggle("on",scrollY>=t&&scrollY<t+s.offsetHeight)}
     });
 });
 function cm(){document.getElementById("nl").classList.remove("open");document.getElementById("hm").classList.remove("on")}
 document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(a){const t=document.querySelector(a.getAttribute("href"));if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth"})}}});
 
-const obs=new IntersectionObserver(en=>{en.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add("v"),i*35)})},{threshold:.04});
+const obs=new IntersectionObserver(en=>{en.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add("v"),i*30)})},{threshold:.04});
 function obsA(){document.querySelectorAll(".fi").forEach(e=>obs.observe(e))}
 
 document.addEventListener("DOMContentLoaded",()=>{build();initFB();obsA()});
